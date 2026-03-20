@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My AI Workspace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans p-4 md:p-6">
+
+    <div class="max-w-4xl mx-auto bg-white p-4 md:p-6 rounded-lg shadow-lg">
+        <h1 class="text-2xl md:text-3xl font-bold text-blue-600 mb-6">AI Master Workspace</h1>
+
+        <div class="flex space-x-4 border-b pb-2 mb-6 overflow-x-auto">
+            <button onclick="showTab('promptTab')" class="text-blue-500 font-semibold border-b-2 border-blue-500 pb-1 whitespace-nowrap">Prompt Master</button>
+            <button onclick="showTab('storeTab')" class="text-gray-500 hover:text-blue-500 whitespace-nowrap">Store Master</button>
+        </div>
+
+        <div id="promptTab" class="tab-content">
+            <h2 class="text-xl font-semibold mb-4">Phase Base Prompt Generator</h2>
+            <textarea id="basicIdea" class="w-full p-3 border rounded-md mb-4" rows="3" placeholder="Enter your basic idea here... (e.g., A cinematic photo of a leopard in Yala)"></textarea>
+            <button onclick="generatePrompt()" id="genBtn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 w-full md:w-auto">Enhance Prompt</button>
+            
+            <div class="mt-4">
+                <h3 class="font-semibold text-gray-700">Result:</h3>
+                <textarea id="enhancedPrompt" class="w-full p-3 border rounded-md mt-2 bg-gray-50" rows="6" readonly></textarea>
+                <button onclick="saveToStore('Prompt', document.getElementById('enhancedPrompt').value)" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 w-full md:w-auto">Save to Store Master</button>
+            </div>
+        </div>
+
+        <div id="storeTab" class="tab-content hidden">
+            <h2 class="text-xl font-semibold mb-4">Store Master (Saved Content)</h2>
+            <button onclick="loadStore()" class="mb-4 bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700">Refresh Store</button>
+            <button onclick="clearStore()" class="mb-4 ml-2 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Clear All</button>
+            <div id="savedItemsList" class="space-y-4 mt-2">
+                </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Tab Navigation
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+        }
+
+        // --- THE SECURE CLOUDFLARE WORKER URL ---
+        const WORKER_URL = "https://my-ai-backend.freyaendicott.workers.dev";
+
+        // Prompt Generation Logic
+        async function generatePrompt() {
+            const basicIdea = document.getElementById('basicIdea').value;
+            const btn = document.getElementById('genBtn');
+            if (!basicIdea) return alert("Please enter an idea!");
+            
+            document.getElementById('enhancedPrompt').value = "Generating... Please wait.";
+            btn.disabled = true;
+            btn.innerText = "Processing...";
+
+            // The instruction for Gemini
+            const fullPrompt = `Act as a professional master prompt engineer. Take this basic idea and turn it into a highly detailed, professional prompt suitable for AI generation or content creation: "${basicIdea}"`;
+
+            try {
+                // We send the request to YOUR Cloudflare Worker, NOT Google directly.
+                const response = await fetch(WORKER_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ prompt: fullPrompt })
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    document.getElementById('enhancedPrompt').value = "Error: " + data.error;
+                } else {
+                    document.getElementById('enhancedPrompt').value = data.result;
+                }
+            } catch (error) {
+                document.getElementById('enhancedPrompt').value = "Connection Error. Make sure your worker is deployed properly.";
+                console.error(error);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Enhance Prompt";
+            }
+        }
+
+        // Store Master Logic (Local Storage)
+        function saveToStore(type, content) {
+            if (!content || content.includes("Generating...") || content.includes("Error")) return alert("Nothing valid to save!");
+            
+            let store = JSON.parse(localStorage.getItem('myAIStore')) || [];
+            store.unshift({ type: type, content: content, date: new Date().toLocaleString() }); // unshift puts new items at the top
+            localStorage.setItem('myAIStore', JSON.stringify(store));
+            
+            alert("Saved successfully!");
+            loadStore();
+        }
+
+        function loadStore() {
+            let store = JSON.parse(localStorage.getItem('myAIStore')) || [];
+            const listDiv = document.getElementById('savedItemsList');
+            listDiv.innerHTML = "";
+            
+            if(store.length === 0) {
+                listDiv.innerHTML = "<p class='text-gray-500 italic'>No saved items yet.</p>";
+                return;
+            }
+
+            store.forEach((item) => {
+                listDiv.innerHTML += `
+                    <div class="p-4 border rounded-md bg-gray-50 shadow-sm relative">
+                        <span class="text-xs font-bold text-white bg-blue-500 px-2 py-1 rounded">${item.type}</span>
+                        <span class="text-xs text-gray-500 ml-2">${item.date}</span>
+                        <p class="mt-3 text-sm text-gray-800 whitespace-pre-wrap">${item.content}</p>
+                    </div>
+                `;
+            });
+        }
+
+        function clearStore() {
+            if(confirm("Are you sure you want to delete all saved items?")) {
+                localStorage.removeItem('myAIStore');
+                loadStore();
+            }
+        }
+
+        // Initialize
+        loadStore();
+    </script>
+</body>
+</html>
