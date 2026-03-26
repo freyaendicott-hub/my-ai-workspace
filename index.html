@@ -3,123 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Content Architect | v4.0 Ultra Pro</title>
-    
+    <title>AI Content Architect | v4.3 PRO</title>
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f1f5f9; color: #1e293b; overflow-x: hidden; }
-        .sidebar { background: #0f172a; transition: all 0.3s ease; }
-        .nav-link { color: #94a3b8; transition: all 0.2s; cursor: pointer; }
-        .nav-link:hover, .nav-link.active { color: #f8fafc; background: #1e293b; border-left: 4px solid #3b82f6; }
-        .card { background: white; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 4px 20px -1px rgba(0, 0, 0, 0.03); }
-        .metric-card { background: white; padding: 24px; border-radius: 20px; border: 1px solid #e2e8f0; }
-        .pro-highlight { color: #2563eb; font-weight: 800; border-bottom: 2px solid #dbeafe; }
-        .result-box { background: #f8fafc; border-radius: 20px; padding: 24px; border: 1px solid #e2e8f0; }
-        .pro-badge { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; }
-        input, textarea, select { background: #f8fafc !important; border: 1px solid #e2e8f0 !important; border-radius: 12px !important; outline: none; }
-        input:focus, textarea:focus { border-color: #3b82f6 !important; ring: 2px #dbeafe; }
+        /* විශාල කර කියවීමට පහසු කළ අකුරු */
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #050a18; color: #f8fafc; font-size: 19px; }
+        .sidebar { background: #0f172a; border-right: 1px solid rgba(255,255,255,0.05); }
+        .glass-card { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 30px; }
+        .nav-link { color: #94a3b8; transition: all 0.2s; cursor: pointer; font-size: 16px; font-weight: 700; padding: 18px; border-radius: 18px; margin-bottom: 10px; width: 100%; display: flex; gap: 15px; align-items: center; }
+        .nav-link:hover, .nav-link.active { color: #f8fafc; background: #1e293b; border-left: 6px solid #3b82f6; }
+        .metric-card { background: #0f172a; border: 1px solid #1e293b; padding: 32px; border-radius: 28px; }
+        .result-box { background: #020617; border-radius: 30px; border: 1px solid #1e293b; padding: 40px; font-size: 1.15rem; line-height: 1.8; }
+        input, textarea, select { background: #0f172a !important; border: 1px solid #334155 !important; color: white !important; font-size: 1.1rem !important; padding: 18px !important; border-radius: 18px !important; }
+        .copy-btn { background: #10b981; color: white; padding: 12px 24px; border-radius: 14px; font-size: 14px; font-weight: 800; cursor: pointer; }
+        .copy-btn:hover { background: #059669; transform: scale(1.03); transition: 0.2s; }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .pro-highlight { color: #60a5fa; font-weight: 800; border-bottom: 2px solid #3b82f6; }
     </style>
 </head>
 <body class="flex min-h-screen">
-
-    <aside class="sidebar w-64 fixed inset-y-0 left-0 hidden md:flex flex-col p-6 z-50">
-        <div class="mb-10 flex items-center gap-2 px-2">
-            <div class="h-8 w-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-black text-lg">A</div>
-            <h1 class="text-white text-lg font-black tracking-tighter">ARCHITECT <span class="pro-badge">PRO</span></h1>
-        </div>
-        
-        <nav class="flex-grow space-y-1">
-            <div class="text-[10px] font-black text-slate-600 uppercase tracking-widest px-4 mb-2">Core Tools</div>
-            <button onclick="showTab('nicheTab')" class="nav-link active w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs uppercase tracking-widest">
-                <span>📊</span> Intelligence
-            </button>
-            <button onclick="showTab('promptTab')" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs uppercase tracking-widest">
-                <span>✍️</span> Prompt Master
-            </button>
-            <button onclick="showTab('imageTab')" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs uppercase tracking-widest">
-                <span>🎨</span> Image Studio
-            </button>
-            <button onclick="showTab('visionTab')" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs uppercase tracking-widest">
-                <span>👁️</span> Vision Master
-            </button>
-            <button onclick="showTab('storeTab')" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-xs uppercase tracking-widest">
-                <span>📂</span> Archive
-            </button>
+    <aside class="sidebar w-80 fixed inset-y-0 left-0 hidden md:flex flex-col p-8 z-50">
+        <h1 class="text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 mb-12 uppercase tracking-tighter">AI Architect</h1>
+        <nav class="flex-grow">
+            <div onclick="showTab('nicheTab')" id="btn-nicheTab" class="nav-link active">📊 Intelligence</div>
+            <div onclick="showTab('promptTab')" id="btn-promptTab" class="nav-link">✍️ Prompt Master</div>
+            <div onclick="showTab('imageTab')" id="btn-imageTab" class="nav-link">🎨 Image Studio</div>
+            <div onclick="showTab('visionTab')" id="btn-visionTab" class="nav-link">👁️ Vision Master</div>
+            <div onclick="showTab('storeTab')" id="btn-storeTab" class="nav-link">📂 Archive</div>
         </nav>
     </aside>
 
-    <main class="flex-grow md:ml-64 p-6 md:p-10">
-        
-        <div class="flex items-center justify-between mb-8">
-            <h2 id="tabTitle" class="text-2xl font-black text-slate-800 tracking-tight">Intelligence Dashboard</h2>
-            <div class="flex items-center gap-4">
-                <div class="bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200 flex items-center gap-2">
-                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">AI Engine Online</span>
-                </div>
-                <div class="h-10 w-10 rounded-full bg-slate-200 border border-white shadow-sm flex items-center justify-center font-bold text-slate-600 text-xs">AS</div>
-            </div>
-        </div>
-
+    <main class="flex-grow md:ml-80 p-8 md:p-12">
         <div id="nicheTab" class="tab-content">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-4 space-y-6">
-                    <div class="card p-8">
-                        <h3 class="text-xs font-black text-slate-400 mb-6 uppercase tracking-widest">Niche Scanner</h3>
-                        <div class="space-y-4">
-                            <input type="text" id="nicheInput" class="w-full p-4 text-sm" placeholder="e.g., Wildlife POV, Giant Hand Landmark">
-                            <button onclick="runProAnalysis()" id="analyzeBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-xl text-xs transition-all flex items-center justify-center gap-2 shadow-lg">
-                                <span id="btnText">ANALYZE DATA</span>
-                                <div id="loader" class="hidden animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
-                            </button>
-                        </div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <div class="lg:col-span-4 space-y-8">
+                    <div class="glass-card p-10">
+                        <h3 class="text-xs font-black text-slate-500 uppercase mb-6 tracking-widest">Niche Scanner</h3>
+                        <input type="text" id="nicheInput" class="w-full mb-6" placeholder="e.g., Wildlife POV">
+                        <button onclick="analyzeNichePro()" id="analyzeBtn" class="w-full bg-blue-600 py-6 rounded-2xl font-black shadow-lg text-lg flex justify-center items-center gap-3 transition-all hover:bg-blue-500">
+                            <span id="btnText">EXECUTE ANALYSIS</span>
+                            <div id="loader" class="hidden animate-spin h-6 w-6 border-4 border-white border-t-transparent rounded-full"></div>
+                        </button>
                     </div>
-
-                    <div id="stepTwo" class="card p-8 hidden opacity-0 translate-y-5 transition-all duration-700">
-                        <h3 class="text-xs font-black text-emerald-600 mb-4 uppercase tracking-widest">Step 2: Package Select</h3>
-                        <div class="grid gap-3">
-                            <button onclick="generateFinalPackage('image')" class="p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-blue-500 text-left transition-all group">
-                                <p class="text-xs font-black text-slate-700 group-hover:text-blue-600 uppercase">Image Post System</p>
-                                <p class="text-[9px] text-slate-400 mt-1">Carousels, Pinterest & Single Posts</p>
-                            </button>
-                            <button onclick="generateFinalPackage('video')" class="p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-purple-500 text-left transition-all group">
-                                <p class="text-xs font-black text-slate-700 group-hover:text-purple-600 uppercase">Video Storyboard</p>
-                                <p class="text-[9px] text-slate-400 mt-1">TikTok, Reels & POV Scenes</p>
-                            </button>
+                    <div id="stepTwo" class="glass-card p-10 hidden opacity-0 border-l-8 border-emerald-500 transition-all duration-700">
+                        <h3 class="text-xs font-black text-emerald-500 mb-6 uppercase">Step 2: Selection</h3>
+                        <div class="grid gap-5">
+                            <button onclick="generatePackage('image')" class="p-6 bg-slate-900 border border-slate-800 rounded-2xl hover:border-blue-500 text-left transition-all"><p class="text-xl font-black uppercase">Image Package</p><p class="text-sm text-slate-500 mt-2">Carousels & Social Posts</p></button>
+                            <button onclick="generatePackage('video')" class="p-6 bg-slate-900 border border-slate-800 rounded-2xl hover:border-purple-500 text-left transition-all"><p class="text-xl font-black uppercase">Video Package</p><p class="text-sm text-slate-500 mt-2">TikTok & Reels Storyboard</p></button>
                         </div>
                     </div>
                 </div>
-
-                <div class="lg:col-span-8 space-y-8">
-                    <div id="mainReportArea" class="card p-8 min-h-[600px]">
-                        <div id="placeholder" class="h-full flex flex-col items-center justify-center py-40 text-slate-300 opacity-30">
-                            <span class="text-6xl mb-4">📊</span>
-                            <p class="font-black text-[10px] uppercase tracking-[0.5em]">Awaiting Injection</p>
-                        </div>
-
-                        <div id="dataView" class="hidden">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                                <div class="metric-card"><p class="text-[9px] font-black text-slate-400 uppercase">Est. Reach</p><p id="m-reach" class="text-2xl font-black text-blue-600 mt-1">--</p></div>
-                                <div class="metric-card"><p class="text-[9px] font-black text-slate-400 uppercase">Viral Score</p><p id="m-viral" class="text-2xl font-black text-purple-600 mt-1">--</p></div>
-                                <div class="metric-card"><p class="text-[9px] font-black text-slate-400 uppercase">Competition</p><p id="m-diff" class="text-2xl font-black text-slate-700 mt-1">--</p></div>
+                <div class="lg:col-span-8 space-y-10">
+                    <div id="reportContainer" class="glass-card p-12 min-h-[700px]">
+                        <div id="placeholder" class="h-full flex flex-col items-center justify-center py-52 opacity-20"><p class="text-sm font-black uppercase tracking-[0.5em]">Waiting for System Injection</p></div>
+                        <div id="analysisView" class="hidden">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                                <div class="metric-card"><p class="text-xs font-black text-slate-400 uppercase">Growth Potential</p><p id="m-growth" class="text-4xl font-black text-blue-400 mt-4">--</p></div>
+                                <div class="metric-card"><p class="text-xs font-black text-slate-400 uppercase">Viral Score</p><p id="m-viral" class="text-4xl font-black text-purple-400 mt-4">--</p></div>
+                                <div class="metric-card"><p class="text-xs font-black text-slate-400 uppercase">Competition</p><p id="m-comp" class="text-4xl font-black text-emerald-400 mt-4">--</p></div>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-                                <canvas id="trendChart"></canvas>
-                                <canvas id="demChart"></canvas>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+                                <div class="bg-slate-950/50 p-6 rounded-[2rem] border border-slate-800"><p class="text-xs font-black text-slate-500 uppercase mb-4">Trend</p><canvas id="mainChart"></canvas></div>
+                                <div class="bg-slate-950/50 p-6 rounded-[2rem] border border-slate-800"><p class="text-xs font-black text-slate-500 uppercase mb-4">Audience</p><canvas id="pieChart"></canvas></div>
                             </div>
-                            <h3 class="text-lg font-black text-slate-800 mb-4 underline decoration-blue-500 decoration-4">STRATEGY ARCHITECTURE</h3>
-                            <div id="strategyReport" class="prose prose-sm max-w-none text-slate-600 mb-12 result-box"></div>
-
-                            <div id="masterPromptArea" class="hidden opacity-0 transition-all duration-700">
-                                <div class="h-1 w-20 bg-emerald-500 mb-4 rounded"></div>
-                                <h3 class="text-sm font-black text-emerald-600 uppercase mb-4">Master Prompt Package</h3>
-                                <div id="finalPromptBox" class="result-box bg-slate-900 text-slate-300 font-mono text-[11px] leading-relaxed max-h-[600px] overflow-y-auto"></div>
-                                <button onclick="saveToStore('Archive', rawPackageData)" class="mt-4 bg-emerald-600 text-white px-6 py-2 rounded-lg font-bold text-xs">Save to Archive 💾</button>
+                            <h2 class="text-3xl font-black mb-8 italic underline decoration-blue-500 decoration-4">STRATEGY REPORT</h2>
+                            <div id="deepReportText" class="result-box prose prose-invert prose-xl max-w-none text-slate-300 mb-12"></div>
+                            <div id="finalOutput" class="hidden mt-16">
+                                <div class="flex items-center justify-between mb-10">
+                                    <div class="flex items-center gap-4">
+                                        <div class="h-2 w-10 bg-emerald-500 rounded-full"></div>
+                                        <h3 class="text-xl font-black text-emerald-500 uppercase tracking-widest">Engineered Master Prompt</h3>
+                                    </div>
+                                    <button onclick="copyMasterPrompt()" class="copy-btn">Copy Prompt 📋</button>
+                                </div>
+                                <div id="finalPromptBox" class="result-box bg-blue-900/10 border-blue-500/30 font-mono text-sm whitespace-pre-wrap overflow-x-auto"></div>
+                                <button onclick="saveToStore('Master Prompt', rawPackageData)" class="mt-6 bg-emerald-600 text-white px-8 py-3 rounded-xl font-black text-sm uppercase shadow-lg">Save to Archive 💾</button>
                             </div>
                         </div>
                     </div>
@@ -127,227 +88,204 @@
             </div>
         </div>
 
-        <div id="promptTab" class="tab-content hidden">
-            <div class="card p-8 max-w-4xl mx-auto">
-                <h2 class="text-xl font-black mb-6 text-slate-800">Advanced Prompt Engineering</h2>
-                <textarea id="basicIdea" class="w-full p-5 mb-6 text-sm" rows="5" placeholder="Enter basic idea to optimize..."></textarea>
-                <button onclick="generatePrompt()" id="genBtn" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold shadow-lg">Generate Prompt ✨</button>
-                <div class="mt-10">
-                    <div id="enhancedPrompt" class="result-box prose prose-sm max-w-none min-h-[150px]"></div>
-                </div>
+        <div id="promptTab" class="tab-content hidden"><div class="glass-card p-12"><h2 class="text-3xl font-black mb-10">Prompt Master</h2><textarea id="basicIdea" class="w-full min-h-[250px] mb-10" placeholder="Describe your concept..."></textarea><button onclick="generatePrompt()" id="genBtn" class="bg-blue-600 px-12 py-6 rounded-2xl font-black uppercase text-lg shadow-lg w-full md:w-auto transition-all hover:bg-blue-500">Enhance Prompt ✨</button><div id="enhancedPrompt" class="mt-12 result-box min-h-[150px]"></div></div></div>
+        
+        <div id="imageTab" class="tab-content hidden"><div class="glass-card p-12"><h2 class="text-3xl font-black mb-10">Image Studio</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                <div><label class="text-xs font-black uppercase mb-3 block text-slate-400">Aspect Ratio</label><select id="imgRatio" class="w-full"><option value="1024x1024">1:1 Square</option><option value="896x1120">4:5 Portrait (FB/IG)</option><option value="768x1344">9:16 Vertical (TikTok)</option><option value="1344x768">16:9 Landscape (YT)</option><option value="1152x896">4:3 Photo</option></select></div>
+                <div><label class="text-xs font-black uppercase mb-3 block text-slate-400">Quality</label><select id="imgQuality" class="w-full"><option value="8k, photorealistic, cinematic">Ultra Quality</option></select></div>
             </div>
-        </div>
-
-        <div id="imageTab" class="tab-content hidden">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-4 space-y-6">
-                    <div class="card p-8">
-                        <h2 class="text-sm font-black text-slate-400 mb-6 uppercase tracking-widest">Renderer</h2>
-                        <div class="space-y-4">
-                            <label class="text-xs font-bold text-slate-500">Quality</label>
-                            <select id="imgQuality" class="w-full p-3 text-sm"><option value="8k, photorealistic, cinematic">Ultra Realistic</option></select>
-                            <label class="text-xs font-bold text-slate-500">Aspect Ratio</label>
-                            <select id="imgRatio" class="w-full p-3 text-sm">
-                                <option value="1024x1024">1:1 Square</option>
-                                <option value="768x1344">9:16 Vertical</option>
-                                <option value="1344x768">16:9 Landscape</option>
-                            </select>
-                            <textarea id="imagePrompt" class="w-full p-4 text-sm mt-4" rows="5" placeholder="Paste Master Prompt..."></textarea>
-                            <button onclick="generateImage()" id="imgBtn" class="w-full bg-blue-600 py-4 rounded-xl text-white font-bold shadow-lg">Render Image 🎨</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="lg:col-span-8">
-                    <div class="card p-8 min-h-[600px] flex flex-col">
-                        <div class="flex-grow border-2 border-dashed border-slate-200 rounded-3xl flex items-center justify-center bg-slate-50 relative overflow-hidden group">
-                            <img id="resultImage" class="max-w-full max-h-[700px] rounded-2xl hidden shadow-2xl transition-transform duration-500 group-hover:scale-105" />
-                            <p id="imagePlaceholder" class="text-slate-300 font-bold uppercase tracking-widest text-xs">No Active Render</p>
-                        </div>
-                        <button onclick="downloadImage()" id="downloadBtn" class="mt-4 bg-emerald-600 py-3 rounded-xl text-white font-bold hidden">Download ⬇️</button>
-                    </div>
-                </div>
+            <textarea id="imagePrompt" class="w-full min-h-[180px] mb-8" placeholder="Paste Master Prompt..."></textarea>
+            <button onclick="generateImage()" id="imgBtn" class="bg-blue-600 w-full py-6 rounded-2xl font-black text-lg shadow-lg uppercase transition-all hover:bg-blue-500">RENDER MASTERPIECE 🎨</button>
+            <div class="mt-12 border-4 border-dashed border-slate-800 rounded-[3.5rem] p-10 flex justify-center items-center bg-slate-950/30 min-h-[600px] group">
+                <img id="resultImage" class="max-w-full max-h-[800px] rounded-3xl hidden shadow-2xl transition-transform duration-500 group-hover:scale-105" /><p id="imagePlaceholder" class="text-slate-700 font-black text-sm uppercase tracking-widest">No Active Render</p>
             </div>
-        </div>
+            <button id="downloadBtn" onclick="downloadImage()" class="mt-10 bg-emerald-600 w-full py-6 rounded-2xl font-black hidden shadow-xl uppercase transition-all hover:bg-emerald-500">Download Asset ⬇️</button>
+        </div></div>
 
-        <div id="visionTab" class="tab-content hidden">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-5 card p-8">
-                    <h2 class="text-xl font-black mb-6">Vision Master 👁️</h2>
-                    <div class="border-4 border-dashed border-slate-100 rounded-[2.5rem] p-4 flex flex-col justify-center items-center bg-slate-50 min-h-[400px] relative mb-6">
-                        <input type="file" id="imageInput" accept="image/*" onchange="handleImageSelect(event)" class="absolute inset-0 opacity-0 cursor-pointer z-20">
-                        <img id="uploadPreview" class="max-w-full max-h-[350px] rounded-3xl hidden z-10" />
-                        <div id="uploadPlaceholder" class="text-center text-slate-400">📸<br><p class="text-xs font-bold uppercase mt-2">Drop Image to Analyze</p></div>
-                    </div>
-                    <button onclick="extractPrompt()" id="extractBtn" class="w-full bg-blue-600 py-4 rounded-xl text-white font-bold">Extract Prompt</button>
-                </div>
-                <div class="lg:col-span-7 card p-8 flex flex-col">
-                    <h3 class="text-xs font-black text-slate-400 mb-6 uppercase">Analysis Result</h3>
-                    <div id="visionResult" class="result-box flex-grow prose prose-sm max-w-none"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="storeTab" class="tab-content hidden">
-            <div class="card p-8">
-                <h2 class="text-xl font-black mb-8">Content Archive</h2>
-                <div class="flex gap-4 mb-8">
-                    <button onclick="loadStore()" class="bg-slate-800 text-white px-6 py-2 rounded-xl text-xs font-bold">Refresh 🔄</button>
-                    <button onclick="clearStore()" class="bg-red-500 text-white px-6 py-2 rounded-xl text-xs font-bold">Clear All 🗑️</button>
-                </div>
-                <div id="savedItemsList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-            </div>
-        </div>
-
+        <div id="visionTab" class="tab-content hidden"><div class="glass-card p-12"><h2 class="text-3xl font-black mb-10">Vision Master 👁️</h2><div class="border-4 border-dashed border-slate-900 rounded-[3.5rem] p-10 flex flex-col items-center justify-center bg-slate-950/30 min-h-[500px] relative mb-10 transition-all hover:border-slate-700"><input type="file" onchange="handleImageSelect(event)" class="absolute inset-0 opacity-0 cursor-pointer z-20"><img id="uploadPreview" class="max-w-full max-h-[450px] rounded-3xl hidden z-10 shadow-2xl" /><div id="uploadPlaceholder" class="text-slate-600 text-center"><span class="text-5xl">📸</span><br><p class="text-sm font-black uppercase mt-6 tracking-widest">Drop Image to Analyze</p></div></div><button onclick="extractPrompt()" id="extractBtn" class="bg-blue-600 w-full py-6 rounded-2xl font-black text-lg shadow-lg uppercase transition-all hover:bg-blue-500">EXTRACT PROMPT</button><div id="visionResult" class="mt-12 result-box min-h-[150px]"></div></div></div>
+        
+        <div id="storeTab" class="tab-content hidden"><div class="glass-card p-12"><h2 class="text-3xl font-black mb-12">Archive Vault</h2><div class="flex gap-6 mb-12"><button onclick="loadStore()" class="bg-slate-800 px-12 py-6 rounded-2xl font-black text-sm uppercase transition-all hover:bg-slate-700">Refresh 🔄</button><button onclick="clearStore()" class="bg-red-900/30 text-red-500 px-12 py-6 rounded-2xl font-black text-sm border border-red-900/50 uppercase transition-all hover:bg-red-900/50">Wipe 🗑️</button></div><div id="savedItemsList" class="grid grid-cols-1 md:grid-cols-2 gap-12"></div></div></div>
     </main>
 
     <script>
-        const WORKER_URL = "https://my-ai-backend.freyaendicott.workers.dev"; // <--- CHANGE THIS
-        let activeCharts = {};
-        let rawPackageData = "";
+        // ⚠️ Cloudflare Worker URL ⚠️
+        const WORKER_URL = "https://my-ai-backend.freyaendicott.workers.dev";
+        
+        let charts = {}, rawPackageData = "", currentImageUrl = null, uploadedImageBase64 = "", uploadedImageMime = "";
 
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
-            document.getElementById(tabId).classList.remove('hidden');
-            document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
-            // Header Title change logic
-            const titles = { nicheTab: "Intelligence Dashboard", promptTab: "Prompt Engineering", imageTab: "Image Studio Rendering", visionTab: "Vision Master Analysis", storeTab: "Content Archive" };
-            document.getElementById('tabTitle').innerText = titles[tabId];
+        function showTab(t) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+            document.getElementById(t).classList.remove('hidden');
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            document.getElementById('btn-'+t).classList.add('active');
         }
 
-        // 1. INTELLIGENCE ENGINE
-        async function runProAnalysis() {
+        // --- 1. JSON FIX සහ INTELLIGENCE ENGINE ---
+        async function analyzeNichePro() {
             const niche = document.getElementById('nicheInput').value;
             if(!niche) return alert("Enter Niche!");
+            
+            const btn = document.getElementById('analyzeBtn');
             const loader = document.getElementById('loader');
             const btnText = document.getElementById('btnText');
-            btnText.classList.add('hidden'); loader.classList.remove('hidden');
+            btn.disabled = true;
+            btnText.classList.add('hidden');
+            loader.classList.remove('hidden');
 
-            const p = `Analyze the niche "${niche}" for professional social media. Output ONLY JSON: {"metrics": {"growth": "88%", "viral": "92/100", "comp": "Medium"}, "trend": [60, 45, 80, 81, 56, 95], "demo": [40, 30, 20, 10], "report": "Detailed 4-phase strategy in English. Highlight topics using <span class='pro-highlight'>Topic</span>."}`;
+            const p = `Deeply analyze the niche "${niche}" for a professional social media strategy. 
+            Output ONLY a valid JSON object:
+            {
+                "metrics": {"growth": "88%", "viral": "94/100", "comp": "Low"},
+                "trend": [60, 45, 85, 90, 70, 98],
+                "demo": [45, 30, 15, 10],
+                "report": "A highly detailed, professional analysis in English. Highlight keywords using <span class='pro-highlight'>Topic</span>. Focus on viral hooks, demographic pain points, and growth hacks."
+            }`;
+
             try {
-                const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "generate_text", prompt: p }) });
+                const res = await fetch(WORKER_URL, { 
+                    method: "POST", 
+                    headers: { "Content-Type": "application/json" }, 
+                    body: JSON.stringify({ action: "generate_text", prompt: p }) 
+                });
+                
+                if (!res.ok) throw new Error("Worker Connection Error");
+                
                 const data = await res.json();
-                const json = JSON.parse(data.result.replace(/```json|```/g, ''));
-                renderIntelligence(json);
-            } catch(e) { alert("Analysis failed."); }
-            finally { btnText.classList.remove('hidden'); loader.classList.add('hidden'); }
+                
+                // 🛠️ JSON FIX - AI එක අමතර අකුරු එව්වත් මේකෙන් JSON එක විතරක් ගලවලා ගන්නවා
+                const jsonMatch = data.result.match(/\{[\s\S]*\}/);
+                if (!jsonMatch) throw new Error("Invalid AI Format Returned");
+                const json = JSON.parse(jsonMatch[0]);
+
+                document.getElementById('placeholder').classList.add('hidden');
+                document.getElementById('analysisView').classList.remove('hidden');
+                document.getElementById('m-growth').innerText = json.metrics.growth;
+                document.getElementById('m-viral').innerText = json.metrics.viral;
+                document.getElementById('m-comp').innerText = json.metrics.comp;
+                document.getElementById('deepReportText').innerHTML = marked.parse(json.report);
+                
+                renderCharts(json.trend, json.demo);
+                
+                document.getElementById('stepTwo').classList.remove('hidden');
+                setTimeout(() => document.getElementById('stepTwo').classList.add('opacity-100'), 100);
+            } catch(e) { 
+                alert("Analysis failed. Model busy or API limit reached. Please try again."); 
+                console.log(e);
+            } finally { 
+                btn.disabled = false;
+                btnText.classList.remove('hidden');
+                loader.classList.add('hidden');
+            }
         }
 
-        function renderIntelligence(json) {
-            document.getElementById('placeholder').classList.add('hidden');
-            document.getElementById('dataView').classList.remove('hidden');
-            document.getElementById('m-reach').innerText = json.metrics.growth;
-            document.getElementById('m-viral').innerText = json.metrics.viral;
-            document.getElementById('m-comp').innerText = json.metrics.comp;
-            document.getElementById('strategyReport').innerHTML = marked.parse(json.report);
-            renderCharts(json.trend, json.demo);
-            document.getElementById('stepTwo').classList.remove('hidden');
-            setTimeout(() => document.getElementById('stepTwo').classList.add('opacity-100', 'translate-y-0'), 100);
+        function renderCharts(l, p) {
+            if(charts.l) charts.l.destroy(); if(charts.p) charts.p.destroy();
+            const ctx1 = document.getElementById('mainChart').getContext('2d');
+            charts.l = new Chart(ctx1, { type: 'line', data: { labels: ['M1','M2','M3','M4','M5','M6'], datasets: [{ data: l, borderColor: '#3b82f6', tension: 0.4, fill: true, backgroundColor: 'rgba(59, 130, 246, 0.05)' }]}, options: { plugins: { legend: false }, scales: { y: { display: false }, x: { grid: { display: false } } } } });
+            const ctx2 = document.getElementById('pieChart').getContext('2d');
+            charts.p = new Chart(ctx2, { type: 'doughnut', data: { labels: ['US/EU','Asia','Africa','Other'], datasets: [{ data: p, backgroundColor: ['#3b82f6','#8b5cf6','#ec4899','#1e293b'], borderWidth: 0 }]}, options: { plugins: { legend: { position: 'right', labels: { color: '#64748b', font: { size: 12 } } } } } });
         }
 
-        function renderCharts(line, pie) {
-            if(activeCharts.l) activeCharts.l.destroy();
-            if(activeCharts.p) activeCharts.p.destroy();
-            const ctx1 = document.getElementById('trendChart').getContext('2d');
-            activeCharts.l = new Chart(ctx1, { type: 'line', data: { labels: ['M1','M2','M3','M4','M5','M6'], datasets: [{ data: line, borderColor: '#3b82f6', tension: 0.4, fill: true, backgroundColor: 'rgba(59, 130, 246, 0.05)' }]}, options: { plugins: { legend: false }, scales: { y: { display: false } } } });
-            const ctx2 = document.getElementById('demChart').getContext('2d');
-            activeCharts.p = new Chart(ctx2, { type: 'doughnut', data: { labels: ['US','Asia','EU','Other'], datasets: [{ data: pie, backgroundColor: ['#3b82f6','#8b5cf6','#ec4899','#f1f5f9'], borderWidth: 0 }]}, options: { plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } } } } });
-        }
-
-        async function generateFinalPackage(type) {
+        async function generatePackage(type) {
             const niche = document.getElementById('nicheInput').value;
             const resBox = document.getElementById('finalPromptBox');
-            const container = document.getElementById('masterPromptArea');
-            container.classList.remove('hidden');
-            resBox.innerHTML = "<p class='animate-pulse text-blue-500 font-bold uppercase'>ENGINEERING ELITE " + type.toUpperCase() + " SYSTEM... HARVESTING SENSOR DATA...</p>";
-            const p = `Act as an Elite AI Prompt Engineer. Generate a MASSIVE MASTER PROMPT for niche: "${niche}". User selected: ${type === 'video' ? 'VIDEO + IMAGE' : 'IMAGE ONLY'}. Follow the 7-Phase ELITE structure with role, mission, style, viral idea gen, technical prompts, captions, and strategy. Output in markdown code blocks.`;
+            document.getElementById('finalOutput').classList.remove('hidden');
+            resBox.innerHTML = "<p class='animate-pulse text-blue-400 font-bold uppercase tracking-widest'>Engineering Elite " + type + " Package...</p>";
             try {
-                const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "generate_text", prompt: p }) });
+                const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "generate_text", prompt: `Act as Elite Prompt Engineer. Write massive master prompt for ${type} in niche: "${niche}". Include Role, Style, 7 Phases, technical AI prompts.` }) });
                 const data = await res.json();
                 rawPackageData = data.result;
                 resBox.innerHTML = marked.parse(rawPackageData);
-                setTimeout(() => container.classList.add('opacity-100'), 100);
-                container.scrollIntoView({ behavior: 'smooth' });
-            } catch(e) { alert("Error generating package."); }
+                document.getElementById('finalOutput').scrollIntoView({ behavior: 'smooth' });
+            } catch(e) { resBox.innerHTML = "Generation Failed. Please try again."; }
         }
 
-        // 2. PROMPT MASTER
+        function copyMasterPrompt() {
+            const text = document.getElementById('finalPromptBox').innerText;
+            navigator.clipboard.writeText(text).then(() => alert("Master Prompt Copied! ✅"));
+        }
+
+        // --- 2. PROMPT MASTER ---
         async function generatePrompt() {
             const idea = document.getElementById('basicIdea').value;
-            const resBox = document.getElementById('enhancedPrompt');
             if(!idea) return;
-            resBox.innerHTML = "Optimizing...";
+            const btn = document.getElementById('genBtn');
+            btn.disabled = true; btn.innerText = "Optimizing...";
             try {
-                const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "generate_text", prompt: "Optimize this to a pro AI prompt: " + idea }) });
-                const data = await res.json();
-                resBox.innerHTML = marked.parse(data.result);
-            } catch(e) { resBox.innerHTML = "Error."; }
+                const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "generate_text", prompt: "Optimize this to an elite AI image prompt: " + idea }) });
+                const d = await res.json();
+                document.getElementById('enhancedPrompt').innerHTML = marked.parse(d.result);
+            } catch(e) { document.getElementById('enhancedPrompt').innerHTML = "Error."; }
+            finally { btn.disabled = false; btn.innerText = "Enhance ✨"; }
         }
 
-        // 3. IMAGE STUDIO
-        let currentImageUrl = null;
+        // --- 3. IMAGE STUDIO ---
         async function generateImage() {
-            const prompt = document.getElementById('imagePrompt').value;
-            const quality = document.getElementById('imgQuality').value;
-            const ratio = document.getElementById('imgRatio').value;
-            const [w, h] = ratio.split('x').map(Number);
+            const p = document.getElementById('imagePrompt').value;
+            const r = document.getElementById('imgRatio').value;
+            const [w, h] = r.split('x').map(Number);
+            if(!p) return;
             const btn = document.getElementById('imgBtn');
-            const imgEl = document.getElementById('resultImage');
-            if(!prompt) return;
-            btn.disabled = true; btn.innerText = "Rendering...";
-            imgEl.classList.add('hidden');
+            btn.disabled = true; btn.innerText = "RENDERING...";
             try {
-                const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "generate_image", prompt: prompt + ", " + quality, width: w, height: h }) });
+                const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "generate_image", prompt: p + ", 8k, photorealistic, cinematic", width: w, height: h }) });
                 const blob = await res.blob();
                 if(currentImageUrl) URL.revokeObjectURL(currentImageUrl);
                 currentImageUrl = URL.createObjectURL(blob);
-                imgEl.src = currentImageUrl;
-                imgEl.classList.remove('hidden');
+                document.getElementById('resultImage').src = currentImageUrl;
+                document.getElementById('resultImage').classList.remove('hidden');
                 document.getElementById('imagePlaceholder').classList.add('hidden');
                 document.getElementById('downloadBtn').classList.remove('hidden');
-            } catch(e) { alert("API Busy."); } finally { btn.disabled = false; btn.innerText = "Render Image 🎨"; }
+            } catch(e) { alert("Server Busy. Try again."); } 
+            finally { btn.disabled = false; btn.innerText = "RENDER MASTERPIECE 🎨"; }
         }
 
-        // 4. VISION MASTER
-        let uploadedImageBase64 = "", uploadedImageMime = "";
+        // --- 4. VISION MASTER ---
         function handleImageSelect(e) {
-            const file = e.target.files[0]; const reader = new FileReader();
+            const f = e.target.files[0]; const reader = new FileReader();
             reader.onload = (ev) => {
-                uploadedImageMime = file.type; uploadedImageBase64 = ev.target.result.split(',')[1];
+                uploadedImageMime = f.type; uploadedImageBase64 = ev.target.result.split(',')[1];
                 document.getElementById('uploadPreview').src = ev.target.result;
                 document.getElementById('uploadPreview').classList.remove('hidden');
                 document.getElementById('uploadPlaceholder').classList.add('hidden');
             };
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(f);
         }
+
         async function extractPrompt() {
             if(!uploadedImageBase64) return;
-            const resBox = document.getElementById('visionResult');
-            resBox.innerHTML = "Analyzing Vision Data...";
+            const btn = document.getElementById('extractBtn');
+            btn.disabled = true; btn.innerText = "ANALYZING...";
             try {
-                const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "describe_image", image_data: uploadedImageBase64, mime_type: uploadedImageMime }) });
-                const data = await res.json();
-                resBox.innerHTML = marked.parse(data.result);
-            } catch(e) { resBox.innerHTML = "Error."; }
+                const r = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "describe_image", image_data: uploadedImageBase64, mime_type: uploadedImageMime }) });
+                const d = await r.json();
+                document.getElementById('visionResult').innerHTML = marked.parse(d.result);
+            } catch(e) { document.getElementById('visionResult').innerHTML = "Error analyzing image."; }
+            finally { btn.disabled = false; btn.innerText = "EXTRACT PROMPT"; }
         }
 
-        // 5. STORE
+        // --- 5. ARCHIVE ---
         function saveToStore(type, content) {
-            let store = JSON.parse(localStorage.getItem('myAIStore')) || [];
-            store.unshift({ type, content, date: new Date().toLocaleString() });
-            localStorage.setItem('myAIStore', JSON.stringify(store));
-            alert("Saved!"); loadStore();
+            if(!content) return;
+            let s = JSON.parse(localStorage.getItem('myAIStore')) || [];
+            s.unshift({ type, content, date: new Date().toLocaleString() });
+            localStorage.setItem('myAIStore', JSON.stringify(s));
+            alert("Saved to Archive! ✅");
         }
+
         function loadStore() {
-            let store = JSON.parse(localStorage.getItem('myAIStore')) || [];
-            const listDiv = document.getElementById('savedItemsList');
-            listDiv.innerHTML = store.length ? "" : "Archive is empty.";
-            store.forEach(item => {
-                listDiv.innerHTML += `<div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm"><div class="flex justify-between mb-4"><span class="bg-blue-600 text-white text-[8px] font-black px-2 py-1 rounded uppercase">${item.type}</span><span class="text-[9px] text-slate-400">${item.date}</span></div><div class="prose prose-sm max-w-none text-slate-600">${marked.parse(item.content)}</div></div>`;
+            let s = JSON.parse(localStorage.getItem('myAIStore')) || [];
+            const list = document.getElementById('savedItemsList');
+            list.innerHTML = s.length ? "" : "<p class='text-slate-500 italic'>Archive is empty.</p>";
+            s.forEach(i => {
+                list.innerHTML += `<div class="p-10 rounded-[2.5rem] bg-slate-900/50 border border-slate-800 shadow-xl transition-all hover:border-blue-500"><div class="flex justify-between mb-6"><span class="bg-blue-600 text-[11px] font-black px-4 py-2 rounded-full uppercase tracking-widest">${i.type}</span><span class="text-xs text-slate-500 font-bold">${i.date}</span></div><div class="prose prose-invert prose-lg max-w-none text-slate-300 leading-relaxed">${marked.parse(i.content)}</div></div>`;
             });
         }
-        function clearStore() { if(confirm("Delete Archive?")) { localStorage.removeItem('myAIStore'); loadStore(); } }
-        function downloadImage() { const a = document.createElement("a"); a.href = currentImageUrl; a.download = "Render.jpg"; a.click(); }
 
+        function clearStore() { if(confirm("Wipe Archive?")) { localStorage.removeItem('myAIStore'); loadStore(); } }
+        function downloadImage() { const a = document.createElement("a"); a.href = currentImageUrl; a.download = "Asset.jpg"; a.click(); }
+        
         loadStore();
     </script>
 </body>
