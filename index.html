@@ -29,12 +29,11 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                    <label class="block text-sm font-semibold mb-1">Render Quality</label>
+                    <label class="block text-sm font-semibold mb-1">Render Quality (Realistic Boost)</label>
                     <select id="imgQuality" class="w-full p-2 border rounded-md bg-gray-50">
-                        <option value="high quality, detailed">1K (Standard)</option>
-                        <option value="2k resolution, highly detailed, masterpiece">2K (High Detail)</option>
-                        <option value="4k resolution, ultra-realistic, sharp focus, cinematic lighting">4K (Ultra Realistic)</option>
-                        <option value="8k resolution, hyper-realistic, unreal engine 5 render, maximum detail, masterpiece">8K (Maximum Detail)</option>
+                        <option value="high quality, detailed, realistic, 8k uhd, dslr, soft lighting">Standard Realistic</option>
+                        <option value="photorealistic, hyper-realistic, 8k, raw photo, masterclass, dslr, sharp focus, cinematic, dramatic lighting, highly detailed surface texture">Cinematic Realistic (Best)</option>
+                        <option value="masterpiece, highly detailed, sharp focus, 8k uhd, vibrant colors">Maximum Detail (Vibrant)</option>
                     </select>
                 </div>
                 <div>
@@ -51,8 +50,13 @@
 
             <textarea id="imagePrompt" class="w-full p-3 border rounded-md mb-4" rows="3" placeholder="Paste your master prompt here... (e.g., A cinematic photo of a leopard in Yala)"></textarea>
             
-            <button onclick="generateImage()" id="imgBtn" class="bg-purple-600 text-white px-6 py-3 rounded-md hover:bg-purple-700 font-bold w-full md:w-auto">Generate Image</button>
-            <span id="imgStatus" class="ml-4 text-sm text-gray-500"></span>
+            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-3 mb-4">
+                <button onclick="generateImage()" id="imgBtn" class="bg-purple-600 text-white px-6 py-3 rounded-md hover:bg-purple-700 font-bold w-full md:w-auto">Generate Image</button>
+                
+                <button onclick="downloadImage()" id="downloadBtn" class="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 font-bold w-full md:w-auto hidden">Download Image ⬇️</button>
+                
+                <span id="imgStatus" class="ml-4 text-sm text-gray-500 py-3"></span>
+            </div>
 
             <div class="mt-6 border-2 border-dashed border-gray-300 rounded-lg p-4 flex justify-center items-center bg-gray-50 min-h-[300px]">
                 <img id="resultImage" class="max-w-full max-h-[600px] rounded-md hidden shadow-lg" />
@@ -73,13 +77,15 @@
             document.getElementById(tabId).classList.remove('hidden');
         }
 
-        // ඔයාගේ Cloudflare Worker URL එක මෙතන තියෙනවා
+        // --- ඔයාගේ Cloudflare Worker URL එක මෙතන තියෙනවා ---
         const WORKER_URL = "https://my-ai-backend.freyaendicott.workers.dev";
+        let currentImageUrl = null; // To store the blob URL for downloading
 
         // Prompt Generation (Gemini)
         async function generatePrompt() {
             const basicIdea = document.getElementById('basicIdea').value;
             const btn = document.getElementById('genBtn');
+            if (!basicIdea) return alert("Please enter basic idea!");
             btn.innerText = "Processing...";
             try {
                 const response = await fetch(WORKER_URL, {
@@ -92,59 +98,77 @@
             btn.innerText = "Enhance Prompt";
         }
 
-        // NEW: Image Generation (Hugging Face)
+        // Image Generation (UPDATED Logic)
         async function generateImage() {
             const userPrompt = document.getElementById('imagePrompt').value;
             if (!userPrompt) return alert("Please enter a prompt!");
 
             const qualityPrompt = document.getElementById('imgQuality').value;
-            const finalPrompt = userPrompt + ", " + qualityPrompt; // Mixing user prompt with quality trick
-
             const ratioStr = document.getElementById('imgRatio').value;
-            const [width, height] = ratioStr.split('x').map(Number); // Extract width and height
+            const [width, height] = ratioStr.split('x').map(Number);
+
+            // MAGIC TRICK: Appending quality keywords to the prompt
+            const finalPrompt = userPrompt + ", " + qualityPrompt; 
 
             const btn = document.getElementById('imgBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
             const status = document.getElementById('imgStatus');
             const imgEl = document.getElementById('resultImage');
             const placeholder = document.getElementById('imagePlaceholder');
 
             btn.disabled = true;
-            status.innerText = "Generating high-quality image... This may take 15-30 seconds.";
+            btn.innerText = "Processing...";
+            downloadBtn.classList.add('hidden'); // Hide download button while processing
+            status.innerText = "Generating high-quality image... (15-40s)";
             imgEl.classList.add('hidden');
             placeholder.classList.remove('hidden');
 
             try {
                 const response = await fetch(WORKER_URL, {
                     method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ 
-                        action: "generate_image", 
-                        prompt: finalPrompt,
-                        width: width,
-                        height: height
-                    })
+                    body: JSON.stringify({ action: "generate_image", prompt: finalPrompt, width: width, height: height })
                 });
                 
-                // Error handling if Hugging face fails
-                const contentType = response.headers.get("content-type");
-                if (contentType && contentType.includes("application/json")) {
+                if (!response.ok) {
                     const data = await response.json();
                     alert(data.error);
                 } else {
-                    // Success! Convert received Blob to an Image URL
                     const blob = await response.blob();
-                    const imageUrl = URL.createObjectURL(blob);
                     
-                    imgEl.src = imageUrl;
+                    // Cleanup parana Object URL effectively freeing memory
+                    if(currentImageUrl) URL.revokeObjectURL(currentImageUrl);
+                    
+                    currentImageUrl = URL.createObjectURL(blob);
+                    
+                    imgEl.src = currentImageUrl;
                     imgEl.classList.remove('hidden');
                     placeholder.classList.add('hidden');
+                    downloadBtn.classList.remove('hidden'); // Show download button on success
                 }
             } catch (error) {
-                alert("Connection Error. Try again.");
+                alert("Connection Error. Please try again.");
                 console.error(error);
             } finally {
                 btn.disabled = false;
+                btn.innerText = "Generate Image";
                 status.innerText = "";
             }
+        }
+
+        // NEW: Download Image Logic
+        function downloadImage() {
+            if (!currentImageUrl) return alert("No image generated yet!");
+            
+            const ratioStr = document.getElementById('imgRatio').value;
+            const timestamp = new Date().toISOString().slice(0, 10);
+            
+            // Dyanmically create a link to download the image
+            const a = document.createElement("a");
+            a.href = currentImageUrl;
+            a.download = `my_ai_image_${ratioStr}_${timestamp}.jpg`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a); // Cleanup
         }
     </script>
 </body>
