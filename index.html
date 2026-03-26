@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Master Workspace | Pro Edition</title>
+    <title>AI Master Workspace | v3.0 PRO</title>
     
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -11,121 +11,167 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0f172a; color: #f8fafc; }
-        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #020617; color: #f8fafc; }
+        .glass-card { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 28px; }
         .nav-tab { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .active-tab { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.5); }
+        .active-tab { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4); }
         .pro-gradient-text { background: linear-gradient(to right, #60a5fa, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .step-container { border-left: 2px dashed #334155; padding-left: 20px; margin-left: 10px; }
-        .result-box { background: #020617; border-radius: 20px; padding: 30px; border: 1px solid #1e293b; }
-        /* Hide scrollbar */
+        .result-box { background: #020617; border-radius: 24px; padding: 25px; border: 1px solid #1e293b; shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05); }
+        input, textarea, select { background: #0f172a !important; border: 1px solid #1e293b !important; color: #f8fafc !important; }
+        input:focus, textarea:focus { border-color: #3b82f6 !important; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1); }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
     <div class="max-w-7xl mx-auto">
-        <header class="mb-10 flex flex-col md:flex-row items-center justify-between gap-4">
+        <header class="mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <div>
-                <h1 class="text-4xl font-extrabold pro-gradient-text">AI Master Workspace <span class="text-xs font-black bg-blue-600 text-white px-2 py-1 rounded-md ml-2 uppercase">v3.0 PRO</span></h1>
-                <p class="text-slate-400 font-medium mt-1">Advanced Content Engineering Dashboard</p>
+                <h1 class="text-3xl font-extrabold pro-gradient-text">AI Master Workspace <span class="text-[10px] font-black bg-blue-600 text-white px-2 py-1 rounded-md ml-1">v3.0 PRO</span></h1>
+                <p class="text-slate-500 font-medium text-xs mt-1 uppercase tracking-widest">Next-Gen Content Engineering</p>
             </div>
-            <div class="flex gap-2">
-                <div id="status-dot" class="h-3 w-3 rounded-full bg-emerald-500 animate-pulse"></div>
-                <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">System Online</span>
+            <div class="flex items-center gap-3 bg-slate-900/50 px-4 py-2 rounded-full border border-slate-800">
+                <div class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Core Engine Active</span>
             </div>
         </header>
 
-        <div class="flex space-x-2 bg-slate-900/50 p-2 rounded-2xl mb-10 overflow-x-auto scrollbar-hide border border-slate-800">
-            <button id="btn-promptTab" onclick="showTab('promptTab')" class="nav-tab px-6 py-3 rounded-xl text-sm font-bold text-slate-400 whitespace-nowrap">Prompt Master</button>
-            <button id="btn-imageTab" onclick="showTab('imageTab')" class="nav-tab px-6 py-3 rounded-xl text-sm font-bold text-slate-400 whitespace-nowrap">Image Studio</button>
-            <button id="btn-nicheTab" onclick="showTab('nicheTab')" class="nav-tab active-tab px-6 py-3 rounded-xl text-sm font-bold whitespace-nowrap">Content Manager</button>
-            <button id="btn-visionTab" onclick="showTab('visionTab')" class="nav-tab px-6 py-3 rounded-xl text-sm font-bold text-slate-400 whitespace-nowrap">Vision Master 👁️</button>
-            <button id="btn-storeTab" onclick="showTab('storeTab')" class="nav-tab px-6 py-3 rounded-xl text-sm font-bold text-slate-400 whitespace-nowrap">Store Master</button>
+        <div class="flex space-x-2 bg-slate-950/50 p-2 rounded-2xl mb-10 overflow-x-auto scrollbar-hide border border-slate-900">
+            <button id="btn-promptTab" onclick="showTab('promptTab')" class="nav-tab px-6 py-3 rounded-xl text-xs font-bold text-slate-500 whitespace-nowrap">Prompt Master</button>
+            <button id="btn-imageTab" onclick="showTab('imageTab')" class="nav-tab px-6 py-3 rounded-xl text-xs font-bold text-slate-500 whitespace-nowrap">Image Studio</button>
+            <button id="btn-nicheTab" onclick="showTab('nicheTab')" class="nav-tab active-tab px-6 py-3 rounded-xl text-xs font-bold whitespace-nowrap">Content Manager</button>
+            <button id="btn-visionTab" onclick="showTab('visionTab')" class="nav-tab px-6 py-3 rounded-xl text-xs font-bold text-slate-500 whitespace-nowrap">Vision Master 👁️</button>
+            <button id="btn-storeTab" onclick="showTab('storeTab')" class="nav-tab px-6 py-3 rounded-xl text-xs font-bold text-slate-500 whitespace-nowrap">Store Master</button>
+        </div>
+
+        <div id="promptTab" class="tab-content hidden">
+            <div class="glass-card p-8 max-w-4xl mx-auto">
+                <h2 class="text-xl font-bold mb-6 text-white border-l-4 border-blue-500 pl-4">Prompt Engineering</h2>
+                <textarea id="basicIdea" class="w-full p-5 rounded-2xl mb-6 outline-none text-sm" rows="4" placeholder="Enter basic idea for AI optimization..."></textarea>
+                <button onclick="generatePrompt()" id="genBtn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-8 py-4 rounded-xl transition-all shadow-lg">Enhance Prompt ✨</button>
+                <div class="mt-10">
+                    <h3 class="text-sm font-black text-slate-400 mb-4 uppercase tracking-widest">Engineered Output:</h3>
+                    <div id="enhancedPrompt" class="prose prose-invert prose-sm max-w-none result-box min-h-[150px]"></div>
+                    <button onclick="saveToStore('Prompt', rawPromptData)" class="mt-4 bg-emerald-600 px-6 py-2 rounded-lg text-xs font-bold">Save to Store 💾</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="imageTab" class="tab-content hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="glass-card p-8">
+                        <h2 class="text-xl font-bold mb-6 text-white">Image Parameters</h2>
+                        <div class="space-y-4">
+                            <div><label class="text-[10px] font-black text-slate-500 uppercase">Quality</label>
+                            <select id="imgQuality" class="w-full p-3 mt-1 rounded-xl text-sm outline-none"><option value="8k, photorealistic, cinematic, raw photo">Cinematic Realistic</option></select></div>
+                            <div><label class="text-[10px] font-black text-slate-500 uppercase">Aspect Ratio</label>
+                            <select id="imgRatio" class="w-full p-3 mt-1 rounded-xl text-sm outline-none">
+                                <option value="1024x1024">1:1 Square</option>
+                                <option value="768x1344">9:16 Vertical</option>
+                                <option value="1344x768">16:9 Landscape</option>
+                            </select></div>
+                            <textarea id="imagePrompt" class="w-full p-4 rounded-xl text-sm mt-4" rows="5" placeholder="Paste Master Prompt..."></textarea>
+                            <button onclick="generateImage()" id="imgBtn" class="w-full bg-blue-600 py-4 rounded-xl font-bold text-sm shadow-lg">Render Masterpiece 🎨</button>
+                            <span id="imgStatus" class="block text-center text-[10px] text-slate-500 font-bold mt-2 uppercase tracking-tighter"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-8">
+                    <div class="glass-card p-8 min-h-[500px] flex flex-col">
+                        <h3 class="text-sm font-black text-slate-500 mb-6 uppercase tracking-widest">Rendering Preview</h3>
+                        <div class="flex-grow flex items-center justify-center border-2 border-dashed border-slate-800 rounded-[2rem] bg-slate-950/30 overflow-hidden relative group">
+                            <img id="resultImage" class="max-w-full max-h-[650px] rounded-2xl hidden shadow-2xl transition-transform duration-700 group-hover:scale-105" />
+                            <p id="imagePlaceholder" class="text-slate-700 font-black text-xs uppercase tracking-widest">No Active Render</p>
+                        </div>
+                        <button onclick="downloadImage()" id="downloadBtn" class="mt-4 bg-emerald-600 py-3 rounded-xl font-bold text-sm hidden">Download Image ⬇️</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="nicheTab" class="tab-content">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                
                 <div class="lg:col-span-4 space-y-6">
                     <div class="glass-card p-8">
-                        <h2 class="text-xl font-bold mb-4 text-white">Niche Intelligence</h2>
-                        <p class="text-sm text-slate-400 mb-6 leading-relaxed">Enter your niche below. AI will perform a deep dive analysis before building your master prompts.</p>
-                        
-                        <div class="space-y-4">
-                            <input type="text" id="nicheInput" class="w-full bg-slate-800/50 border border-slate-700 p-4 rounded-xl outline-none focus:border-blue-500 transition-all text-sm" placeholder="e.g., Giant Hand drops landmarks, Wildlife, POV Ships...">
-                            <button onclick="analyzeNiche()" id="analyzeBtn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2">
-                                <span id="btnText">Analyze Niche</span>
-                                <svg id="loader" class="hidden animate-spin h-5 w-5 text-white" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                            </button>
-                        </div>
+                        <h2 class="text-xl font-bold mb-4 text-white italic">Niche Intelligence</h2>
+                        <input type="text" id="nicheInput" class="w-full p-4 rounded-xl outline-none text-sm mb-4" placeholder="Enter Niche (e.g., Wildlife POV)">
+                        <button onclick="analyzeNiche()" id="analyzeBtn" class="w-full bg-blue-600 py-4 rounded-xl font-bold flex items-center justify-center gap-2">
+                            <span id="btnText">Analyze Niche</span>
+                            <div id="loader" class="hidden animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
+                        </button>
                     </div>
-
                     <div id="packageSelection" class="glass-card p-8 hidden opacity-0 translate-y-5 transition-all duration-700">
-                        <h3 class="text-lg font-bold mb-4 text-emerald-400 uppercase tracking-tighter">Step 2: Select Package</h3>
-                        <div class="grid grid-cols-1 gap-3">
-                            <button onclick="finalGenerate('image')" class="group p-4 bg-slate-800 hover:bg-blue-900/40 border border-slate-700 rounded-xl text-left transition-all">
-                                <div class="font-bold text-white group-hover:text-blue-400">Image Post Package</div>
-                                <div class="text-xs text-slate-500">IG Carousels, Single Posts, Pinterest</div>
+                        <h3 class="text-xs font-black text-emerald-500 mb-4 uppercase">Step 2: Selection</h3>
+                        <div class="grid gap-3">
+                            <button onclick="finalGenerate('image')" class="p-4 bg-slate-900 border border-slate-800 rounded-xl text-left hover:border-blue-500 transition-all">
+                                <div class="font-bold text-sm">Image Post Package</div>
+                                <div class="text-[10px] text-slate-500 uppercase">Static/Carousel Optimized</div>
                             </button>
-                            <button onclick="finalGenerate('video')" class="group p-4 bg-slate-800 hover:bg-purple-900/40 border border-slate-700 rounded-xl text-left transition-all">
-                                <div class="font-bold text-white group-hover:text-purple-400">Video + Image Package</div>
-                                <div class="text-xs text-slate-500">Scene Storyboard, Video Prompts, Reels/TikTok</div>
+                            <button onclick="finalGenerate('video')" class="p-4 bg-slate-900 border border-slate-800 rounded-xl text-left hover:border-purple-500 transition-all">
+                                <div class="font-bold text-sm">Video + Image Package</div>
+                                <div class="text-[10px] text-slate-500 uppercase">Reels/TikTok Storyboard</div>
                             </button>
                         </div>
                     </div>
                 </div>
-
                 <div class="lg:col-span-8 space-y-6">
-                    <div id="reportArea" class="glass-card p-8 min-h-[500px]">
-                        <div id="reportPlaceholder" class="flex flex-col items-center justify-center h-full text-slate-600 py-20">
-                            <div class="text-6xl mb-4 opacity-20">📊</div>
-                            <p class="font-bold uppercase tracking-widest text-xs">Waiting for Analysis</p>
-                        </div>
-
+                    <div id="reportArea" class="glass-card p-8 min-h-[600px]">
+                        <div id="reportPlaceholder" class="flex flex-col items-center justify-center py-24 text-slate-800"><p class="text-[10px] font-black uppercase tracking-widest">Waiting for Data Injection</p></div>
                         <div id="reportContent" class="hidden">
-                            <div class="flex items-center justify-between mb-8">
-                                <h2 id="reportTitle" class="text-2xl font-black text-white italic underline decoration-blue-500">RESEARCH REPORT</h2>
-                                <span class="bg-blue-500/10 text-blue-500 text-[10px] font-black px-2 py-1 rounded border border-blue-500/30">CONFIDENTIAL AI DATA</span>
-                            </div>
-                            
+                            <div class="flex justify-between items-center mb-10"><h2 class="text-2xl font-black italic underline decoration-blue-500">RESEARCH REPORT</h2></div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-                                <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
-                                    <p class="text-[10px] font-black text-slate-500 mb-4 uppercase">Growth Potential & Interest</p>
-                                    <canvas id="growthChart" height="200"></canvas>
-                                </div>
-                                <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
-                                    <p class="text-[10px] font-black text-slate-500 mb-4 uppercase">Target Audience Age Mix</p>
-                                    <canvas id="ageChart" height="200"></canvas>
-                                </div>
+                                <div class="bg-slate-950 p-6 rounded-3xl border border-slate-900"><canvas id="growthChart"></canvas></div>
+                                <div class="bg-slate-950 p-6 rounded-3xl border border-slate-900"><canvas id="ageChart"></canvas></div>
                             </div>
-
-                            <div id="strategyText" class="prose prose-invert prose-sm max-w-none result-box mb-8"></div>
-
-                            <div id="finalPromptContainer" class="hidden opacity-0 transition-all duration-700">
-                                <div class="flex items-center gap-2 mb-4">
-                                    <div class="h-2 w-2 rounded-full bg-emerald-500"></div>
-                                    <h3 class="text-sm font-black text-emerald-500 uppercase">Engineered Master Prompt</h3>
-                                </div>
-                                <div id="finalPromptResult" class="prose prose-invert prose-blue max-w-none result-box bg-blue-900/10 border-blue-500/30 p-8"></div>
+                            <div id="strategyText" class="result-box mb-8 prose prose-invert prose-sm max-w-none"></div>
+                            <div id="finalPromptContainer" class="hidden transition-all duration-700">
+                                <div id="finalPromptResult" class="result-box bg-blue-900/10 border-blue-500/30 prose prose-invert prose-blue max-w-none shadow-2xl"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
-        <div id="promptTab" class="tab-content hidden"><div class="glass-card p-20 text-center text-slate-600">Prompt Master Tab Ready</div></div>
-        <div id="imageTab" class="tab-content hidden"><div class="glass-card p-20 text-center text-slate-600">Image Studio Tab Ready</div></div>
-        <div id="visionTab" class="tab-content hidden"><div class="glass-card p-20 text-center text-slate-600">Vision Master Tab Ready</div></div>
-        <div id="storeTab" class="tab-content hidden"><div class="glass-card p-20 text-center text-slate-600">Store Master Tab Ready</div></div>
+        <div id="visionTab" class="tab-content hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-5 glass-card p-8">
+                    <h2 class="text-xl font-bold mb-6 text-white border-l-4 border-blue-500 pl-4">Vision Master 👁️</h2>
+                    <div class="border-4 border-dashed border-slate-900 rounded-[2.5rem] p-4 flex flex-col justify-center items-center bg-slate-950/30 min-h-[400px] relative mb-6">
+                        <input type="file" id="imageInput" accept="image/*" onchange="handleImageSelect(event)" class="absolute inset-0 opacity-0 cursor-pointer z-20">
+                        <img id="uploadPreview" class="max-w-full max-h-[350px] rounded-2xl hidden shadow-2xl z-10" />
+                        <div id="uploadPlaceholder" class="text-center text-slate-600">📸<br><p class="text-[10px] font-black uppercase mt-2">Drop Image to Analyze</p></div>
+                    </div>
+                    <button onclick="extractPrompt()" id="extractBtn" class="w-full bg-blue-600 py-4 rounded-xl font-bold shadow-lg transition-all">Extract Master Prompt</button>
+                </div>
+                <div class="lg:col-span-7 glass-card p-8 flex flex-col">
+                    <h3 class="text-sm font-black text-slate-500 mb-6 uppercase tracking-widest">Vision Logic Output</h3>
+                    <div id="visionResult" class="result-box flex-grow prose prose-invert prose-sm max-w-none"></div>
+                    <button onclick="saveToStore('Vision Prompt', rawVisionData)" class="mt-4 bg-emerald-600 py-3 rounded-xl font-bold text-xs">Save Prompt 💾</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="storeTab" class="tab-content hidden">
+            <div class="glass-card p-8">
+                <h2 class="text-xl font-bold mb-8 text-white">Store Master</h2>
+                <div class="flex gap-4 mb-10">
+                    <button onclick="loadStore()" class="bg-slate-800 px-6 py-3 rounded-xl text-xs font-bold">Refresh 🔄</button>
+                    <button onclick="clearStore()" class="bg-red-900/30 text-red-500 px-6 py-3 rounded-xl text-xs font-bold border border-red-900/50">Clear All 🗑️</button>
+                </div>
+                <div id="savedItemsList" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+            </div>
+        </div>
 
     </div>
 
     <script>
         const WORKER_URL = "https://my-ai-backend.freyaendicott.workers.dev"; // ඔයාගේ Worker URL එක දාන්න
-        let currentNiche = "";
+        
+        let currentImageUrl = null;
+        let rawContentData = "", rawPromptData = "", rawVisionData = "";
+        let uploadedImageBase64 = "", uploadedImageMime = "";
         let growthChart, ageChart;
 
         function showTab(tabId) {
@@ -135,127 +181,137 @@
             document.getElementById('btn-' + tabId).classList.add('active-tab');
         }
 
-        // --- PHASE 1: NICHE ANALYSIS ---
-        async function analyzeNiche() {
-            currentNiche = document.getElementById('nicheInput').value;
-            if (!currentNiche) return alert("Enter Niche!");
-
-            const btnText = document.getElementById('btnText');
-            const loader = document.getElementById('loader');
-            btnText.classList.add('hidden');
-            loader.classList.remove('hidden');
-
-            const analysisPrompt = `Analyze the niche "${currentNiche}" for a viral social media page. 
-            Output ONLY a JSON object with this structure:
-            {
-                "strategy": "Write a 3-4 bullet point professional strategy in Sinhala. Use bold colors in HTML tags like <span style='color:#3b82f6'>Topic</span>.",
-                "growthData": [list of 6 numbers for interest over time],
-                "ageData": [list of 4 numbers for age demographics],
-                "topKeywords": ["list", "of", "5", "tags"]
-            }`;
-
+        // 1. PROMPT MASTER
+        async function generatePrompt() {
+            const input = document.getElementById('basicIdea').value;
+            const resBox = document.getElementById('enhancedPrompt');
+            if(!input) return;
+            resBox.innerHTML = "Generating...";
             try {
-                const response = await fetch(WORKER_URL, {
-                    method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ action: "generate_text", prompt: analysisPrompt })
-                });
-                const data = await response.json();
-                const cleanJson = JSON.parse(data.result.replace(/```json|```/g, ''));
-                
-                displayReport(cleanJson);
-            } catch (err) {
-                console.error(err);
-                alert("API Error! Check your Worker.");
-            } finally {
-                btnText.classList.remove('hidden');
-                loader.classList.add('hidden');
-            }
+                const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "generate_text", prompt: "Optimize this to a master prompt: " + input }) });
+                const data = await res.json();
+                rawPromptData = data.result;
+                resBox.innerHTML = marked.parse(rawPromptData);
+            } catch(e) { alert("Error!"); }
         }
 
-        function displayReport(data) {
-            document.getElementById('reportPlaceholder').classList.add('hidden');
-            document.getElementById('reportContent').classList.remove('hidden');
-            document.getElementById('strategyText').innerHTML = data.strategy;
+        // 2. IMAGE STUDIO
+        async function generateImage() {
+            const prompt = document.getElementById('imagePrompt').value;
+            const quality = document.getElementById('imgQuality').value;
+            const ratio = document.getElementById('imgRatio').value;
+            const [w, h] = ratio.split('x').map(Number);
+            const btn = document.getElementById('imgBtn');
+            const status = document.getElementById('imgStatus');
+            const imgEl = document.getElementById('resultImage');
             
-            // Show Step 2 selection
-            const sel = document.getElementById('packageSelection');
-            sel.classList.remove('hidden');
-            setTimeout(() => { sel.classList.add('opacity-100', 'translate-y-0'); }, 100);
+            if(!prompt) return;
+            btn.disabled = true; status.innerText = "Rendering Mastery...";
+            try {
+                const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "generate_image", prompt: prompt + ", " + quality, width: w, height: h }) });
+                const blob = await res.blob();
+                if(currentImageUrl) URL.revokeObjectURL(currentImageUrl);
+                currentImageUrl = URL.createObjectURL(blob);
+                imgEl.src = currentImageUrl;
+                imgEl.classList.remove('hidden');
+                document.getElementById('imagePlaceholder').classList.add('hidden');
+                document.getElementById('downloadBtn').classList.remove('hidden');
+            } catch(e) { alert("Busy. Try again."); } finally { btn.disabled = false; status.innerText = ""; }
+        }
 
-            // Render Charts
-            renderCharts(data.growthData, data.ageData);
+        // 3. CONTENT MANAGER (ANALYSIS & MASTER PROMPTS)
+        async function analyzeNiche() {
+            const niche = document.getElementById('nicheInput').value;
+            if(!niche) return;
+            const loader = document.getElementById('loader');
+            const btnText = document.getElementById('btnText');
+            btnText.classList.add('hidden'); loader.classList.remove('hidden');
+
+            const p = `Analyze "${niche}" for viral potential. Output ONLY JSON: {"strategy": "html with colors", "growth": [6 numbers], "ages": [4 numbers]}`;
+            try {
+                const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "generate_text", prompt: p }) });
+                const data = await res.json();
+                const json = JSON.parse(data.result.replace(/```json|```/g, ''));
+                
+                document.getElementById('reportPlaceholder').classList.add('hidden');
+                document.getElementById('reportContent').classList.remove('hidden');
+                document.getElementById('strategyText').innerHTML = json.strategy;
+                document.getElementById('packageSelection').classList.remove('hidden');
+                setTimeout(() => document.getElementById('packageSelection').classList.add('opacity-100', 'translate-y-0'), 100);
+                
+                renderCharts(json.growth, json.ages);
+            } catch(e) { alert("API Error"); } finally { btnText.classList.remove('hidden'); loader.classList.add('hidden'); }
+        }
+
+        async function finalGenerate(type) {
+            const resBox = document.getElementById('finalPromptResult');
+            const container = document.getElementById('finalPromptContainer');
+            container.classList.remove('hidden');
+            resBox.innerHTML = "Engineering Elite " + type.toUpperCase() + " Package...";
+            
+            const niche = document.getElementById('nicheInput').value;
+            const p = `User wants ${type} package for niche "${niche}". Write a MASSIVE ELITE MASTER PROMPT like the 'Giant Hand' or 'Wildlife' examples. Include Role, Mission, Style, and 7 Phases (Viral ideas, technical AI prompts, captions, etc). Format with markdown code blocks.`;
+            try {
+                const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "generate_text", prompt: p }) });
+                const data = await res.json();
+                rawContentData = data.result;
+                resBox.innerHTML = marked.parse(rawContentData);
+                container.scrollIntoView({ behavior: 'smooth' });
+            } catch(e) { alert("Error!"); }
         }
 
         function renderCharts(growth, ages) {
-            const ctx1 = document.getElementById('growthChart').getContext('2d');
-            const ctx2 = document.getElementById('ageChart').getContext('2d');
-
-            if (growthChart) growthChart.destroy();
-            if (ageChart) ageChart.destroy();
-
-            growthChart = new Chart(ctx1, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{
-                        label: 'Interest %',
-                        data: growth,
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        fill: true,
-                        tension: 0.4,
-                        borderWidth: 3
-                    }]
-                },
-                options: { plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { grid: { display: false } } } }
-            });
-
-            ageChart = new Chart(ctx2, {
-                type: 'doughnut',
-                data: {
-                    labels: ['18-24', '25-34', '35-44', '45+'],
-                    datasets: [{
-                        data: ages,
-                        backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#334155'],
-                        borderWidth: 0
-                    }]
-                },
-                options: { plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } } } }
-            });
+            if(growthChart) growthChart.destroy(); if(ageChart) ageChart.destroy();
+            growthChart = new Chart(document.getElementById('growthChart'), { type: 'line', data: { labels: ['M1', 'M2', 'M3', 'M4', 'M5', 'M6'], datasets: [{ data: growth, borderColor: '#3b82f6', tension: 0.4, fill: true, backgroundColor: 'rgba(59, 130, 246, 0.1)' }] }, options: { plugins: { legend: false }, scales: { y: { display: false } } } });
+            ageChart = new Chart(document.getElementById('ageChart'), { type: 'doughnut', data: { labels: ['18-24', '25-34', '35-44', '45+'], datasets: [{ data: ages, backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#1e293b'], borderWidth: 0 }] }, options: { plugins: { legend: { position: 'bottom', labels: { color: '#64748b', font: { size: 8 } } } } } });
         }
 
-        // --- PHASE 2 & 3: MASTER PROMPT GENERATION ---
-        async function finalGenerate(type) {
-            const resultBox = document.getElementById('finalPromptResult');
-            const container = document.getElementById('finalPromptContainer');
-            
-            container.classList.remove('hidden');
-            setTimeout(() => { container.classList.add('opacity-100'); }, 100);
-            resultBox.innerHTML = "<p class='animate-pulse'>Engineering Elite " + type.toUpperCase() + " Master Prompt System...</p>";
+        // 4. VISION MASTER
+        function handleImageSelect(e) {
+            const file = e.target.files[0]; const reader = new FileReader();
+            reader.onload = (ev) => {
+                uploadedImageMime = file.type; uploadedImageBase64 = ev.target.result.split(',')[1];
+                document.getElementById('uploadPreview').src = ev.target.result;
+                document.getElementById('uploadPreview').classList.remove('hidden');
+                document.getElementById('uploadPlaceholder').classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
 
-            const finalPromptInstruction = `You are a World-Class AI Prompt Engineer.
-            User Niche: "${currentNiche}".
-            User Selected: "${type === 'video' ? 'Video + Image Package' : 'Image Only Package'}".
-            
-            Task: Write a massive, professional MASTER PROMPT exactly like the elite examples (Giant Hand, Ship POV). 
-            - If VIDEO: Include Role, Mission, Style, Phase 1 (10 viral ideas), Phase 2 (Scene Storyboard), Phase 3 (Highly technical video image prompts), Phase 4 (Caption), Phase 5 (Overlays), Phase 6 (Hashtags), Phase 7 (Strategy).
-            - If IMAGE: Follow the Elite Wildlife Photographer style with technical camera details (f-stop, lens, lighting).
-            - Format the output with clear headers and code blocks for the prompts. Use professional icons in headers.`;
-
+        async function extractPrompt() {
+            if(!uploadedImageBase64) return;
+            const resBox = document.getElementById('visionResult');
+            resBox.innerHTML = "Analyzing textures, lighting and style...";
             try {
-                const response = await fetch(WORKER_URL, {
-                    method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ action: "generate_text", prompt: finalPromptInstruction })
-                });
-                const data = await response.json();
-                resultBox.innerHTML = marked.parse(data.result);
-                
-                // Scroll to result
-                container.scrollIntoView({ behavior: 'smooth' });
-            } catch (err) {
-                alert("Error generating final package!");
-            }
+                const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "describe_image", image_data: uploadedImageBase64, mime_type: uploadedImageMime }) });
+                const data = await res.json();
+                rawVisionData = data.result;
+                resBox.innerHTML = marked.parse(rawVisionData);
+            } catch(e) { alert("Error"); }
         }
+
+        // 5. STORE MASTER
+        function saveToStore(type, content) {
+            if(!content) return;
+            let store = JSON.parse(localStorage.getItem('myAIStore')) || [];
+            store.unshift({ type, content, date: new Date().toLocaleString() });
+            localStorage.setItem('myAIStore', JSON.stringify(store));
+            alert("Saved!"); loadStore();
+        }
+
+        function loadStore() {
+            let store = JSON.parse(localStorage.getItem('myAIStore')) || [];
+            const listDiv = document.getElementById('savedItemsList');
+            listDiv.innerHTML = "";
+            store.forEach(item => {
+                listDiv.innerHTML += `<div class="p-6 rounded-3xl bg-slate-900/50 border border-slate-800 shadow-xl"><div class="flex justify-between mb-4"><span class="bg-blue-600 text-[8px] font-black px-2 py-1 rounded uppercase tracking-widest">${item.type}</span><span class="text-[8px] text-slate-500 font-bold">${item.date}</span></div><div class="prose prose-invert prose-sm max-w-none text-slate-400">${marked.parse(item.content)}</div></div>`;
+            });
+        }
+        function clearStore() { if(confirm("Delete all?")) { localStorage.removeItem('myAIStore'); loadStore(); } }
+        function downloadImage() { const a = document.createElement("a"); a.href = currentImageUrl; a.download = "Masterpiece.jpg"; a.click(); }
+
+        loadStore();
+        showTab('nicheTab'); // Start with Niche tab
     </script>
 </body>
 </html>
