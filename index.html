@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My AI Workspace</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans p-4 md:p-6">
 
@@ -21,8 +22,13 @@
         <div id="promptTab" class="tab-content hidden">
             <h2 class="text-xl font-semibold mb-4">Phase Base Prompt Generator</h2>
             <textarea id="basicIdea" class="w-full p-3 border rounded-md mb-4" rows="3" placeholder="Enter basic idea..."></textarea>
-            <button onclick="generatePrompt()" id="genBtn" class="bg-blue-600 text-white px-4 py-2 rounded-md">Enhance Prompt</button>
-            <textarea id="enhancedPrompt" class="w-full p-3 border rounded-md mt-4 bg-gray-50" rows="5"></textarea>
+            <button onclick="generatePrompt()" id="genBtn" class="bg-blue-600 text-white px-4 py-2 rounded-md font-bold">Enhance Prompt</button>
+            
+            <div class="mt-4">
+                <h3 class="font-semibold text-gray-700 mb-2">Result:</h3>
+                <div id="enhancedPrompt" class="w-full p-4 border rounded-md bg-gray-50 prose max-w-none min-h-[150px]"></div>
+                <button onclick="saveToStore('Prompt', rawPromptData)" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Save to Store Master</button>
+            </div>
         </div>
 
         <div id="imageTab" class="tab-content hidden">
@@ -59,7 +65,7 @@
 
         <div id="nicheTab" class="tab-content">
             <h2 class="text-xl font-semibold mb-2">Social Media Niche & Content Manager</h2>
-            <p class="text-sm text-gray-500 mb-4">Enter your niche (e.g., "EDM Music Production", "Wildlife Photography", "Italian Patriotic Page") to get a full strategy.</p>
+            <p class="text-sm text-gray-500 mb-4">Enter your niche (e.g., "Patriotic Italian history", "Wildlife Photography") to get a full strategy.</p>
             
             <input type="text" id="nicheInput" class="w-full p-3 border rounded-md mb-4" placeholder="Type your target niche or page idea here...">
             
@@ -67,15 +73,19 @@
             
             <div class="mt-6">
                 <h3 class="font-semibold text-gray-700">Your AI Strategy Plan:</h3>
-                <textarea id="contentResult" class="w-full p-4 border rounded-md mt-2 bg-gray-50 text-sm leading-relaxed" rows="12" readonly></textarea>
-                <button onclick="saveContentToStore()" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Save to Store Master</button>
+                <div id="contentResult" class="w-full p-6 border rounded-md mt-2 bg-gray-50 prose prose-blue max-w-none min-h-[300px] max-h-[600px] overflow-y-auto shadow-inner">
+                    <p class="text-gray-400 italic">Your formatted strategy will appear here...</p>
+                </div>
+                <button onclick="saveToStore('Social Strategy', rawContentData)" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Save to Store Master</button>
             </div>
         </div>
 
         <div id="storeTab" class="tab-content hidden">
             <h2 class="text-xl font-semibold mb-4">Store Master</h2>
-            <p class="text-gray-500">Saved items are secure in your browser.</p>
-            <div id="savedItemsList" class="space-y-4 mt-4"></div>
+            <p class="text-gray-500 mb-4">Saved items are secure in your browser.</p>
+            <button onclick="loadStore()" class="mb-4 bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700">Refresh Store</button>
+            <button onclick="clearStore()" class="mb-4 ml-2 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Clear All</button>
+            <div id="savedItemsList" class="space-y-6 mt-2"></div>
         </div>
 
     </div>
@@ -88,33 +98,55 @@
 
         // --- ඔයාගේ Cloudflare Worker URL එක මෙතන දාන්න ---
         const WORKER_URL = "https://my-ai-backend.freyaendicott.workers.dev";
+        
         let currentImageUrl = null;
+        let rawContentData = ""; // To save the raw text internally
+        let rawPromptData = "";
 
-        // Prompt Master
-        async function generatePrompt() { /* ... කලින් කෝඩ් එකමයි ... */ }
+        // --- 1. Prompt Master ---
+        async function generatePrompt() {
+            const basicIdea = document.getElementById('basicIdea').value;
+            const btn = document.getElementById('genBtn');
+            const resultBox = document.getElementById('enhancedPrompt');
+            if (!basicIdea) return alert("Please enter basic idea!");
+            
+            btn.innerText = "Processing...";
+            resultBox.innerHTML = "<p class='text-gray-500'>Generating...</p>";
+            
+            try {
+                const response = await fetch(WORKER_URL, {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ action: "generate_text", prompt: basicIdea })
+                });
+                const data = await response.json();
+                rawPromptData = data.result || data.error;
+                // Parse markdown to HTML
+                resultBox.innerHTML = marked.parse(rawPromptData); 
+            } catch (err) { resultBox.innerHTML = "<p class='text-red-500'>Error connecting to backend</p>"; }
+            btn.innerText = "Enhance Prompt";
+        }
 
-        // Image Studio
+        // --- 2. Image Studio ---
         async function generateImage() { /* ... කලින් කෝඩ් එකමයි ... */ }
         function downloadImage() { /* ... කලින් කෝඩ් එකමයි ... */ }
 
-        // NEW: Content Manager & Niche Researcher Logic
+        // --- 3. Content Manager ---
         async function generateContentStrategy() {
             const niche = document.getElementById('nicheInput').value;
-            if (!niche) return alert("Please enter a niche or topic!");
-
             const btn = document.getElementById('contentBtn');
             const resultBox = document.getElementById('contentResult');
-            
+            if (!niche) return alert("Please enter a niche or topic!");
+
             btn.disabled = true;
             btn.innerText = "Researching & Generating... (Might take 10s)";
-            resultBox.value = "Analyzing the niche, finding viral trends, and building your content calendar...\n\nPlease wait.";
+            resultBox.innerHTML = "<p class='text-blue-500 font-semibold animate-pulse'>Analyzing the niche, finding viral trends, and building your content calendar... Please wait.</p>";
 
-            // Magic Trick: This is the hidden "Master Prompt" sent to Gemini
-            const strategyPrompt = `Act as an expert Social Media Manager and Niche Researcher. The user wants to build a brand, page, or channel around this niche: "${niche}". 
-            Please provide a comprehensive strategy formatted clearly with headings:
-            1. Target Audience Analysis (Demographics, Pain points, Desires)
-            2. Top 15 Viral Keywords & SEO Tags
-            3. 7-Day Content Calendar (Include the Post Format: Reel/Carousel/Image, a Viral Hook, and a brief Description)
+            const strategyPrompt = `Act as an expert Social Media Manager and Niche Researcher. The user wants to build a brand around this niche: "${niche}". 
+            Provide a strategy formatted beautifully using Markdown (use ## headings, bullet points, and tables).
+            Include:
+            1. Target Audience Analysis
+            2. Top 15 Viral Keywords & SEO Tags (as a bulleted list)
+            3. 7-Day Content Calendar (Must be a Markdown Table with columns: Day, Topic, Format, Viral Hook)
             4. 3 Ready-to-use Viral Captions for the first 3 posts.`;
 
             try {
@@ -124,26 +156,61 @@
                 });
                 
                 const data = await response.json();
-                resultBox.value = data.result || data.error;
+                rawContentData = data.result || data.error;
+                
+                // MAGIC TRICK: Convert AI text into beautiful styled HTML
+                resultBox.innerHTML = marked.parse(rawContentData); 
             } catch (err) {
-                resultBox.value = "Connection Error. Please try again.";
+                resultBox.innerHTML = "<p class='text-red-500'>Connection Error. Please try again.</p>";
             } finally {
                 btn.disabled = false;
                 btn.innerText = "Generate Complete Strategy";
             }
         }
 
-        // Save Content to Store Master
-        function saveContentToStore() {
-            const content = document.getElementById('contentResult').value;
+        // --- 4. Store Master (Updated to show formatted text) ---
+        function saveToStore(type, content) {
             if (!content || content.includes("Analyzing")) return alert("Nothing valid to save!");
-            
             let store = JSON.parse(localStorage.getItem('myAIStore')) || [];
-            store.unshift({ type: "Social Strategy", content: content, date: new Date().toLocaleString() });
+            store.unshift({ type: type, content: content, date: new Date().toLocaleString() });
             localStorage.setItem('myAIStore', JSON.stringify(store));
-            
-            alert("Strategy saved successfully to Store Master!");
+            alert("Saved successfully to Store Master!");
+            loadStore();
         }
+
+        function loadStore() {
+            let store = JSON.parse(localStorage.getItem('myAIStore')) || [];
+            const listDiv = document.getElementById('savedItemsList');
+            listDiv.innerHTML = "";
+            
+            if(store.length === 0) {
+                listDiv.innerHTML = "<p class='text-gray-500 italic'>No saved items yet.</p>";
+                return;
+            }
+
+            store.forEach((item) => {
+                // Parse the saved markdown back into HTML when displaying
+                const formattedContent = marked.parse(item.content);
+                listDiv.innerHTML += `
+                    <div class="p-6 border rounded-lg bg-white shadow-md relative">
+                        <div class="flex items-center mb-4 border-b pb-2">
+                            <span class="text-xs font-bold text-white bg-blue-600 px-3 py-1 rounded-full">${item.type}</span>
+                            <span class="text-xs text-gray-500 ml-3">${item.date}</span>
+                        </div>
+                        <div class="prose max-w-none text-sm">${formattedContent}</div>
+                    </div>
+                `;
+            });
+        }
+
+        function clearStore() {
+            if(confirm("Are you sure you want to delete all saved items?")) {
+                localStorage.removeItem('myAIStore');
+                loadStore();
+            }
+        }
+
+        loadStore();
     </script>
 </body>
 </html>
