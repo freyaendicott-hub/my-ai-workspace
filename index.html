@@ -3,46 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My AI Workspace</title>
+    <title>My Premium AI Workspace</title>
+    
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans p-4 md:p-6">
+<body class="bg-slate-100 text-slate-800 font-sans p-4 md:p-8">
 
-    <div class="max-w-5xl mx-auto bg-white p-4 md:p-6 rounded-lg shadow-lg">
-        <h1 class="text-2xl md:text-3xl font-bold text-blue-600 mb-6">AI Master Workspace</h1>
+    <div class="max-w-6xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-2xl border border-slate-200">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-8">
+            AI Master Workspace
+        </h1>
 
-        <div class="flex space-x-4 border-b pb-2 mb-6 overflow-x-auto">
-            <button onclick="showTab('promptTab')" class="text-gray-500 hover:text-blue-500 font-semibold pb-1 whitespace-nowrap">Prompt Master</button>
-            <button onclick="showTab('imageTab')" class="text-gray-500 hover:text-blue-500 font-semibold pb-1 whitespace-nowrap">Image Studio</button>
-            <button onclick="showTab('nicheTab')" class="text-blue-500 font-semibold border-b-2 border-blue-500 pb-1 whitespace-nowrap">Content Manager</button>
-            <button onclick="showTab('storeTab')" class="text-gray-500 hover:text-blue-500 whitespace-nowrap">Store Master</button>
+        <div class="flex space-x-6 border-b border-slate-200 pb-3 mb-8 overflow-x-auto scrollbar-hide">
+            <button onclick="showTab('promptTab')" class="text-slate-500 hover:text-blue-600 font-bold pb-2 whitespace-nowrap transition-colors duration-200">Prompt Master</button>
+            <button onclick="showTab('imageTab')" class="text-slate-500 hover:text-blue-600 font-bold pb-2 whitespace-nowrap transition-colors duration-200">Image Studio</button>
+            <button onclick="showTab('nicheTab')" class="text-blue-600 font-bold border-b-4 border-blue-600 pb-2 whitespace-nowrap transition-colors duration-200">Content Manager</button>
+            <button onclick="showTab('storeTab')" class="text-slate-500 hover:text-blue-600 font-bold pb-2 whitespace-nowrap transition-colors duration-200">Store Master</button>
         </div>
 
         <div id="promptTab" class="tab-content hidden">
-            <h2 class="text-xl font-semibold mb-4">Phase Base Prompt Generator</h2>
-            <textarea id="basicIdea" class="w-full p-3 border rounded-md mb-4" rows="3" placeholder="Enter basic idea..."></textarea>
-            <button onclick="generatePrompt()" id="genBtn" class="bg-blue-600 text-white px-4 py-2 rounded-md font-bold">Enhance Prompt</button>
-            <div class="mt-4">
-                <h3 class="font-semibold text-gray-700 mb-2">Result:</h3>
-                <div id="enhancedPrompt" class="w-full p-4 border rounded-md bg-gray-50 prose max-w-none min-h-[150px]"></div>
-                <button onclick="saveToStore('Prompt', rawPromptData)" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Save to Store Master</button>
+            <h2 class="text-2xl font-bold mb-4 text-slate-700">Phase Base Prompt Generator</h2>
+            <textarea id="basicIdea" class="w-full p-4 border border-slate-300 rounded-xl mb-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all shadow-sm" rows="3" placeholder="Enter your basic idea here..."></textarea>
+            <button onclick="generatePrompt()" id="genBtn" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all transform hover:-translate-y-0.5 w-full md:w-auto">Enhance Prompt ✨</button>
+            
+            <div class="mt-8">
+                <h3 class="font-bold text-slate-700 mb-3">Result:</h3>
+                <div id="enhancedPrompt" class="w-full p-6 border border-slate-200 rounded-xl bg-slate-50 prose max-w-none min-h-[150px] shadow-inner"></div>
+                <button onclick="saveToStore('Prompt', rawPromptData)" class="mt-4 bg-emerald-500 text-white px-6 py-2 rounded-xl font-bold hover:bg-emerald-600 transition-colors shadow-md">Save to Store 💾</button>
             </div>
         </div>
 
         <div id="imageTab" class="tab-content hidden">
-            <h2 class="text-xl font-semibold mb-4">Pro Image Generator</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <h2 class="text-2xl font-bold mb-4 text-slate-700">Pro Image Generator</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                    <label class="block text-sm font-semibold mb-1">Render Quality</label>
-                    <select id="imgQuality" class="w-full p-2 border rounded-md bg-gray-50">
+                    <label class="block text-sm font-bold mb-2 text-slate-600">Render Quality</label>
+                    <select id="imgQuality" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50 focus:ring-2 focus:ring-purple-500 outline-none">
                         <option value="high quality, detailed, realistic, 8k uhd, dslr, soft lighting">Standard Realistic</option>
                         <option value="photorealistic, hyper-realistic, 8k, raw photo, masterclass, dslr, sharp focus, cinematic, dramatic lighting, highly detailed surface texture">Cinematic Realistic (Best)</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold mb-1">Aspect Ratio</label>
-                    <select id="imgRatio" class="w-full p-2 border rounded-md bg-gray-50">
+                    <label class="block text-sm font-bold mb-2 text-slate-600">Aspect Ratio</label>
+                    <select id="imgRatio" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50 focus:ring-2 focus:ring-purple-500 outline-none">
                         <option value="1024x1024">1:1 (Square)</option>
                         <option value="896x1120">4:5 (Portrait)</option>
                         <option value="768x1344">9:16 (Vertical)</option>
@@ -50,128 +56,49 @@
                     </select>
                 </div>
             </div>
-            <textarea id="imagePrompt" class="w-full p-3 border rounded-md mb-4" rows="3" placeholder="Paste your master prompt here..."></textarea>
-            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-3 mb-4">
-                <button onclick="generateImage()" id="imgBtn" class="bg-purple-600 text-white px-6 py-3 rounded-md font-bold">Generate Image</button>
-                <button onclick="downloadImage()" id="downloadBtn" class="bg-green-600 text-white px-6 py-3 rounded-md font-bold hidden">Download Image ⬇️</button>
-                <span id="imgStatus" class="ml-4 text-sm text-gray-500 py-3"></span>
+            <textarea id="imagePrompt" class="w-full p-4 border border-slate-300 rounded-xl mb-4 focus:ring-2 focus:ring-purple-500 outline-none transition-all shadow-sm" rows="3" placeholder="Paste your master prompt here..."></textarea>
+            
+            <div class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4 mb-6">
+                <button onclick="generateImage()" id="imgBtn" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-3 rounded-xl font-bold hover:shadow-lg transition-all transform hover:-translate-y-0.5 w-full md:w-auto">Generate Image 🎨</button>
+                <button onclick="downloadImage()" id="downloadBtn" class="bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold hover:shadow-lg transition-all transform hover:-translate-y-0.5 w-full md:w-auto hidden">Download ⬇️</button>
+                <span id="imgStatus" class="ml-4 text-sm font-medium text-slate-500 py-3"></span>
             </div>
-            <div class="mt-6 border-2 border-dashed border-gray-300 rounded-lg p-4 flex justify-center items-center bg-gray-50 min-h-[300px]">
-                <img id="resultImage" class="max-w-full max-h-[600px] rounded-md hidden shadow-lg" />
-                <p id="imagePlaceholder" class="text-gray-400">Your generated image will appear here</p>
+            
+            <div class="mt-6 border-2 border-dashed border-slate-300 rounded-2xl p-4 flex justify-center items-center bg-slate-50 min-h-[350px] relative overflow-hidden group">
+                <img id="resultImage" class="max-w-full max-h-[600px] rounded-xl hidden shadow-2xl transition-transform duration-500 group-hover:scale-105" />
+                <p id="imagePlaceholder" class="text-slate-400 font-medium">Your generated masterpiece will appear here</p>
             </div>
         </div>
 
         <div id="nicheTab" class="tab-content">
-            <h2 class="text-xl font-semibold mb-2">Social Media Strategy & Master Prompt Auto-Builder</h2>
-            <p class="text-sm text-gray-500 mb-4">Enter your niche. The AI will generate a strategy AND two custom 7-Phase Master Prompts (Image & Video) just for you.</p>
+            <h2 class="text-2xl font-bold mb-2 text-slate-700">Social Media Strategy & Prompt Builder</h2>
+            <p class="text-sm text-slate-500 mb-6">Enter your niche to get a full strategy and two custom 7-Phase Master Prompts (Image & Video).</p>
             
-            <input type="text" id="nicheInput" class="w-full p-3 border rounded-md mb-4" placeholder="Type your target niche... (e.g., ASMR Shelter Building)">
+            <input type="text" id="nicheInput" class="w-full p-4 border border-slate-300 rounded-xl mb-6 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm transition-all" placeholder="E.g., ASMR Shelter Building, Fitness Motivation...">
             
-            <button onclick="generateContentStrategy()" id="contentBtn" class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 font-bold w-full md:w-auto">Generate Strategy & Master Prompts</button>
+            <button onclick="generateContentStrategy()" id="contentBtn" class="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-8 py-3 rounded-xl font-bold hover:shadow-lg transition-all transform hover:-translate-y-0.5 w-full md:w-auto">Generate Strategy & Prompts 🚀</button>
             
-            <div class="mt-6">
-                <h3 class="font-semibold text-gray-700">Your AI Strategy & Prompts:</h3>
-                <div id="contentResult" class="w-full p-6 border rounded-md mt-2 bg-gray-50 prose prose-blue max-w-none min-h-[300px] max-h-[700px] overflow-y-auto shadow-inner">
-                    <p class="text-gray-400 italic">Your formatted strategy and copyable prompts will appear here...</p>
+            <div class="mt-8">
+                <h3 class="font-bold text-slate-700 mb-3">Your AI Strategy & Prompts:</h3>
+                <div id="contentResult" class="w-full p-8 border border-slate-200 rounded-2xl bg-white prose prose-blue prose-img:rounded-xl max-w-none min-h-[300px] max-h-[700px] overflow-y-auto shadow-inner glass-panel">
+                    <p class="text-slate-400 italic">Your formatted strategy and copyable prompts will appear here...</p>
                 </div>
-                <button onclick="saveToStore('Niche Strategy & Prompts', rawContentData)" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Save to Store Master</button>
+                <button onclick="saveToStore('Niche Strategy', rawContentData)" class="mt-6 bg-emerald-500 text-white px-6 py-2 rounded-xl font-bold hover:bg-emerald-600 shadow-md transition-colors">Save to Store 💾</button>
             </div>
         </div>
 
         <div id="storeTab" class="tab-content hidden">
-            <h2 class="text-xl font-semibold mb-4">Store Master</h2>
-            <p class="text-gray-500 mb-4">Saved items are secure in your browser.</p>
-            <button onclick="loadStore()" class="mb-4 bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700">Refresh Store</button>
-            <button onclick="clearStore()" class="mb-4 ml-2 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Clear All</button>
-            <div id="savedItemsList" class="space-y-6 mt-2"></div>
+            <h2 class="text-2xl font-bold mb-2 text-slate-700">Store Master</h2>
+            <p class="text-slate-500 mb-6">Your personal saved prompts and strategies.</p>
+            <div class="flex space-x-3 mb-6">
+                <button onclick="loadStore()" class="bg-slate-700 text-white px-5 py-2 rounded-xl font-bold hover:bg-slate-800 transition-colors shadow-md">Refresh 🔄</button>
+                <button onclick="clearStore()" class="bg-red-500 text-white px-5 py-2 rounded-xl font-bold hover:bg-red-600 transition-colors shadow-md">Clear All 🗑️</button>
+            </div>
+            <div id="savedItemsList" class="space-y-6 mt-4"></div>
         </div>
 
     </div>
 
-    <script>
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
-            document.getElementById(tabId).classList.remove('hidden');
-        }
-
-        // --- ඔයාගේ Cloudflare Worker URL එක මෙතන දාන්න ---
-        const WORKER_URL = "https://my-ai-backend.freyaendicott.workers.dev";
-        
-        let currentImageUrl = null;
-        let rawContentData = "";
-        let rawPromptData = "";
-
-        // --- Prompt Master & Image Studio logic goes here (same as before) ---
-        async function generatePrompt() { /* ... */ }
-        async function generateImage() { /* ... */ }
-        function downloadImage() { /* ... */ }
-
-        // --- NEW: Content Manager & Master Prompt Auto-Builder ---
-        async function generateContentStrategy() {
-            const niche = document.getElementById('nicheInput').value;
-            const btn = document.getElementById('contentBtn');
-            const resultBox = document.getElementById('contentResult');
-            if (!niche) return alert("Please enter a niche or topic!");
-
-            btn.disabled = true;
-            btn.innerText = "Researching & Engineering Prompts... (15-20s)";
-            resultBox.innerHTML = "<p class='text-blue-500 font-semibold animate-pulse'>Analyzing niche, extracting keywords, and engineering elite 7-Phase Master Prompts for Images and Videos... Please wait.</p>";
-
-            // The Magic "Super Prompt" sent to Gemini
-            const strategyPrompt = `Act as an Elite Social Media Manager and Advanced AI Prompt Engineer. The user's niche is: "${niche}". 
-            
-            Provide a beautifully formatted Markdown response divided into TWO main sections.
-            
-            ## SECTION 1: Niche Strategy
-            1. Target Audience Analysis
-            2. Top 15 Viral Keywords & SEO Tags (as a list)
-            3. 7-Day Content Calendar (Markdown Table: Day | Topic | Format | Viral Hook)
-            
-            ## SECTION 2: Auto-Generated 7-Phase Master Prompts
-            Based on the exact niche "${niche}", generate TWO highly detailed "7-Phase Master Prompts". 
-            One specifically for generating IMAGES (Instagram/Pinterest) and One specifically for generating SHORT VIDEOS (TikTok/Reels/Shorts).
-            Put EACH of the two Master Prompts inside a markdown code block (\`\`\`) so the user can easily copy them.
-
-            Follow this exact 7-Phase structure for BOTH master prompts, but heavily adapt the details, roles, camera/video settings, and examples to perfectly fit "${niche}":
-
-            [Role: ELITE expert in the niche]
-            [Mission: Generate COMPLETE viral post packages]
-            [Content Style: List 5-8 niche-specific visual/video styles]
-            [Content Categories: List 7 niche-specific content buckets]
-            PHASE 1 - VIRAL IDEA GENERATION (Generate 10 ideas and ask user to pick one)
-            PHASE 2 - FORMAT SELECTION (Image: Single/Carousel. Video: Hook/Body/CTA)
-            PHASE 3 - AI GENERATION PROMPTS (Highly technical AI prompts with Camera/Lighting details)
-            PHASE 4 - VIRAL CAPTION (Short, emotional/curious)
-            PHASE 5 - TEXT OVERLAY (Scroll-stopping hooks)
-            PHASE 6 - HASHTAGS (Niche optimized)
-            PHASE 7 - POSTING STRATEGY (Best platform, time, CTA)
-            OUTPUT FORMAT (Summary of the above)`;
-
-            try {
-                const response = await fetch(WORKER_URL, {
-                    method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ action: "generate_text", prompt: strategyPrompt })
-                });
-                
-                const data = await response.json();
-                rawContentData = data.result || data.error;
-                
-                resultBox.innerHTML = marked.parse(rawContentData); 
-            } catch (err) {
-                resultBox.innerHTML = "<p class='text-red-500'>Connection Error. Please try again.</p>";
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "Generate Strategy & Master Prompts";
-            }
-        }
-
-        // --- Store Master logic ---
-        function saveToStore(type, content) { /* ... same as before ... */ }
-        function loadStore() { /* ... same as before ... */ }
-        function clearStore() { /* ... same as before ... */ }
-
-        loadStore();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
