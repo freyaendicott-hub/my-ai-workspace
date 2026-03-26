@@ -3,102 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Premium AI Workspace</title>
-    
-    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    
-    <link rel="stylesheet" href="style.css">
+    <title>My AI Workspace - Modern UI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans p-4 md:p-8">
+<body class="bg-slate-50 text-slate-800 font-sans p-4 md:p-10">
 
-    <div class="max-w-6xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-2xl border border-slate-200">
-        <h1 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 mb-8">
-            AI Master Workspace
-        </h1>
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-10 flex items-center justify-between border-b pb-6 border-slate-200">
+            <h1 class="text-3xl font-extrabold text-blue-600">AI Master Workspace</h1>
+            <button class="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-sm text-sm">Create New</button>
+        </header>
 
-        <div class="flex space-x-6 border-b border-slate-200 pb-3 mb-8 overflow-x-auto scrollbar-hide">
-            <button onclick="showTab('promptTab')" class="text-slate-500 hover:text-blue-600 font-bold pb-2 whitespace-nowrap transition-colors duration-200">Prompt Master</button>
-            <button onclick="showTab('imageTab')" class="text-slate-500 hover:text-blue-600 font-bold pb-2 whitespace-nowrap transition-colors duration-200">Image Studio</button>
-            <button onclick="showTab('nicheTab')" class="text-blue-600 font-bold border-b-4 border-blue-600 pb-2 whitespace-nowrap transition-colors duration-200">Content Manager</button>
-            <button onclick="showTab('storeTab')" class="text-slate-500 hover:text-blue-600 font-bold pb-2 whitespace-nowrap transition-colors duration-200">Store Master</button>
+        <div class="flex space-x-6 border-b border-slate-200 pb-3 mb-10 overflow-x-auto scrollbar-hide">
+            <button class="text-slate-500 hover:text-blue-600 font-semibold pb-2 whitespace-nowrap">Prompt Master</button>
+            <button class="text-blue-600 font-bold border-b-4 border-blue-600 pb-2 whitespace-nowrap">Image Studio</button>
+            <button class="text-slate-500 hover:text-blue-600 font-semibold pb-2 whitespace-nowrap">Store Master</button>
         </div>
 
-        <div id="promptTab" class="tab-content hidden">
-            <h2 class="text-2xl font-bold mb-4 text-slate-700">Phase Base Prompt Generator</h2>
-            <textarea id="basicIdea" class="w-full p-4 border border-slate-300 rounded-xl mb-4 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all shadow-sm" rows="3" placeholder="Enter your basic idea here..."></textarea>
-            <button onclick="generatePrompt()" id="genBtn" class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all transform hover:-translate-y-0.5 w-full md:w-auto">Enhance Prompt ✨</button>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10">
             
-            <div class="mt-8">
-                <h3 class="font-bold text-slate-700 mb-3">Result:</h3>
-                <div id="enhancedPrompt" class="w-full p-6 border border-slate-200 rounded-xl bg-slate-50 prose max-w-none min-h-[150px] shadow-inner"></div>
-                <button onclick="saveToStore('Prompt', rawPromptData)" class="mt-4 bg-emerald-500 text-white px-6 py-2 rounded-xl font-bold hover:bg-emerald-600 transition-colors shadow-md">Save to Store 💾</button>
-            </div>
-        </div>
+            <div class="md:col-span-4 space-y-8">
+                <div class="bg-white p-7 rounded-2xl shadow-sm border border-slate-100">
+                    <h2 class="text-xl font-bold mb-6 text-slate-900 border-l-4 border-blue-600 pl-3">Pro Image Generator</h2>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2 text-slate-700">Render Quality</label>
+                            <select id="imgQuality" class="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all shadow-inner text-sm">
+                                <option value=" high quality, detailed, realistic, 8k uhd, dslr, soft lighting">Standard Realistic</option>
+                                <option value="photorealistic, hyper-realistic, 8k, raw photo, masterclass, dslr, sharp focus, cinematic, dramatic lighting, highly detailed surface texture">Cinematic Realistic (Best)</option>
+                                <option value="masterpiece, highly detailed, sharp focus, 8k uhd, vibrant colors">Maximum Detail (Vibrant)</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold mb-2 text-slate-700">Aspect Ratio</label>
+                            <select id="imgRatio" class="w-full p-3.5 border border-slate-200 rounded-xl bg-slate-50 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all shadow-inner text-sm">
+                                <option value="1024x1024">1:1 (Square)</option>
+                                <option value="896x1120">4:5 (Portrait)</option>
+                                <option value="768x1344">9:16 (Vertical)</option>
+                                <option value="1344x768">16:9 (Landscape)</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-semibold mb-2 text-slate-700">Your Master Prompt</label>
+                            <textarea id="imagePrompt" class="w-full p-4 border border-slate-200 rounded-xl mb-6 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all shadow-inner text-sm" rows="5" placeholder="Paste your master prompt here... (e.g., A cinematic photo of a leopard)"></textarea>
+                        </div>
 
-        <div id="imageTab" class="tab-content hidden">
-            <h2 class="text-2xl font-bold mb-4 text-slate-700">Pro Image Generator</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
-                    <label class="block text-sm font-bold mb-2 text-slate-600">Render Quality</label>
-                    <select id="imgQuality" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50 focus:ring-2 focus:ring-purple-500 outline-none">
-                        <option value="high quality, detailed, realistic, 8k uhd, dslr, soft lighting">Standard Realistic</option>
-                        <option value="photorealistic, hyper-realistic, 8k, raw photo, masterclass, dslr, sharp focus, cinematic, dramatic lighting, highly detailed surface texture">Cinematic Realistic (Best)</option>
-                    </select>
+                        <button onclick="generateImage()" id="imgBtn" class="bg-blue-600 text-white px-7 py-3 rounded-xl hover:bg-blue-700 transition-colors font-bold w-full text-center shadow-md">Generate Image ✨</button>
+                        <span id="imgStatus" class="block mt-4 text-xs text-slate-500 font-medium text-center"></span>
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-bold mb-2 text-slate-600">Aspect Ratio</label>
-                    <select id="imgRatio" class="w-full p-3 border border-slate-300 rounded-xl bg-slate-50 focus:ring-2 focus:ring-purple-500 outline-none">
-                        <option value="1024x1024">1:1 (Square)</option>
-                        <option value="896x1120">4:5 (Portrait)</option>
-                        <option value="768x1344">9:16 (Vertical)</option>
-                        <option value="1344x768">16:9 (Landscape)</option>
-                    </select>
+            </div>
+
+            <div class="md:col-span-8 space-y-8">
+                <div class="bg-white p-7 rounded-2xl shadow-sm border border-slate-100 min-h-[400px]">
+                    <h3 class="font-bold text-slate-700 mb-6 flex items-center justify-between">
+                        <span>Image Preview</span>
+                        <span class="text-xs text-slate-400 font-normal">Your generated image will appear below</span>
+                    </h3>
+                    
+                    <div class="border-4 border-dashed border-slate-200 rounded-3xl p-6 flex justify-center items-center bg-slate-50 min-h-[400px] relative overflow-hidden group">
+                        <div class="absolute inset-0 bg-blue-100 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl -z-10 blur-xl"></div>
+                        
+                        <img id="resultImage" class="max-w-full max-h-[700px] rounded-2xl hidden shadow-2xl transition-transform duration-500 group-hover:scale-105" />
+                        <p id="imagePlaceholder" class="text-slate-400 font-semibold text-sm">Click 'Generate' to see the magic</p>
+                    </div>
                 </div>
             </div>
-            <textarea id="imagePrompt" class="w-full p-4 border border-slate-300 rounded-xl mb-4 focus:ring-2 focus:ring-purple-500 outline-none transition-all shadow-sm" rows="3" placeholder="Paste your master prompt here..."></textarea>
-            
-            <div class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4 mb-6">
-                <button onclick="generateImage()" id="imgBtn" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-3 rounded-xl font-bold hover:shadow-lg transition-all transform hover:-translate-y-0.5 w-full md:w-auto">Generate Image 🎨</button>
-                <button onclick="downloadImage()" id="downloadBtn" class="bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold hover:shadow-lg transition-all transform hover:-translate-y-0.5 w-full md:w-auto hidden">Download ⬇️</button>
-                <span id="imgStatus" class="ml-4 text-sm font-medium text-slate-500 py-3"></span>
-            </div>
-            
-            <div class="mt-6 border-2 border-dashed border-slate-300 rounded-2xl p-4 flex justify-center items-center bg-slate-50 min-h-[350px] relative overflow-hidden group">
-                <img id="resultImage" class="max-w-full max-h-[600px] rounded-xl hidden shadow-2xl transition-transform duration-500 group-hover:scale-105" />
-                <p id="imagePlaceholder" class="text-slate-400 font-medium">Your generated masterpiece will appear here</p>
-            </div>
+
         </div>
 
-        <div id="nicheTab" class="tab-content">
-            <h2 class="text-2xl font-bold mb-2 text-slate-700">Social Media Strategy & Prompt Builder</h2>
-            <p class="text-sm text-slate-500 mb-6">Enter your niche to get a full strategy and two custom 7-Phase Master Prompts (Image & Video).</p>
-            
-            <input type="text" id="nicheInput" class="w-full p-4 border border-slate-300 rounded-xl mb-6 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm transition-all" placeholder="E.g., ASMR Shelter Building, Fitness Motivation...">
-            
-            <button onclick="generateContentStrategy()" id="contentBtn" class="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-8 py-3 rounded-xl font-bold hover:shadow-lg transition-all transform hover:-translate-y-0.5 w-full md:w-auto">Generate Strategy & Prompts 🚀</button>
-            
-            <div class="mt-8">
-                <h3 class="font-bold text-slate-700 mb-3">Your AI Strategy & Prompts:</h3>
-                <div id="contentResult" class="w-full p-8 border border-slate-200 rounded-2xl bg-white prose prose-blue prose-img:rounded-xl max-w-none min-h-[300px] max-h-[700px] overflow-y-auto shadow-inner glass-panel">
-                    <p class="text-slate-400 italic">Your formatted strategy and copyable prompts will appear here...</p>
-                </div>
-                <button onclick="saveToStore('Niche Strategy', rawContentData)" class="mt-6 bg-emerald-500 text-white px-6 py-2 rounded-xl font-bold hover:bg-emerald-600 shadow-md transition-colors">Save to Store 💾</button>
-            </div>
-        </div>
-
-        <div id="storeTab" class="tab-content hidden">
-            <h2 class="text-2xl font-bold mb-2 text-slate-700">Store Master</h2>
-            <p class="text-slate-500 mb-6">Your personal saved prompts and strategies.</p>
-            <div class="flex space-x-3 mb-6">
-                <button onclick="loadStore()" class="bg-slate-700 text-white px-5 py-2 rounded-xl font-bold hover:bg-slate-800 transition-colors shadow-md">Refresh 🔄</button>
-                <button onclick="clearStore()" class="bg-red-500 text-white px-5 py-2 rounded-xl font-bold hover:bg-red-600 transition-colors shadow-md">Clear All 🗑️</button>
-            </div>
-            <div id="savedItemsList" class="space-y-6 mt-4"></div>
+        <footer class="mt-16 border-t border-slate-200 pt-8 text-center">
+            <p class="text-sm text-slate-500">Access previous prompts in the <span class="text-blue-500 font-semibold">Store Master</span> tab.</p>
         </div>
 
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // --- ඔයාගේ Cloudflare Worker URL එක මෙතන තියෙනවා ---
+        const WORKER_URL = "https://my-ai-backend.freyaendicott.workers.dev";
+
+        // Image Generation Function
+        async function generateImage() {
+            const userPrompt = document.getElementById('imagePrompt').value;
+            if (!userPrompt) return alert("Please enter a prompt!");
+
+            const qualityPrompt = document.getElementById('imgQuality').value;
+            const finalPrompt = userPrompt + ", " + qualityPrompt; 
+
+            const ratioStr = document.getElementById('imgRatio').value;
+            const [width, height] = ratioStr.split('x').map(Number); 
+
+            const btn = document.getElementById('imgBtn');
+            const status = document.getElementById('imgStatus');
+            const imgEl = document.getElementById('resultImage');
+            const placeholder = document.getElementById('imagePlaceholder');
+
+            btn.disabled = true;
+            btn.innerText = "Processing...";
+            status.innerText = "Generating high-quality image... (15-30s)";
+            imgEl.classList.add('hidden');
+            placeholder.classList.remove('hidden');
+
+            try {
+                const response = await fetch(WORKER_URL, {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        action: "generate_image", 
+                        prompt: finalPrompt,
+                        width: width,
+                        height: height
+                    })
+                });
+                
+                const contentType = response.headers.get("content-type");
+                if (contentType && contentType.includes("application/json")) {
+                    const data = await response.json();
+                    alert(data.error);
+                } else {
+                    const blob = await response.blob();
+                    const imageUrl = URL.createObjectURL(blob);
+                    
+                    imgEl.src = imageUrl;
+                    imgEl.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                }
+            } catch (error) {
+                alert("Connection Error. Please try again.");
+                console.error(error);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Generate Image ✨";
+                status.innerText = "";
+            }
+        }
+    </script>
 </body>
 </html>
