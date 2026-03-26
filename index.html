@@ -3,243 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Master Workspace | v4.0 Ultra Pro</title>
+    <title>AI Content Architect | Pro Intelligence</title>
     
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #050a18; color: #f8fafc; }
-        .glass-card { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
-        .nav-tab { transition: all 0.3s; }
-        .active-tab { background: #3b82f6; color: white; box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
-        .metric-card { background: #0f172a; border: 1px solid #1e293b; padding: 20px; border-radius: 20px; transition: transform 0.3s; }
-        .metric-card:hover { transform: translateY(-5px); border-color: #3b82f6; }
-        .pro-highlight { color: #60a5fa; font-weight: 800; border-bottom: 2px solid #3b82f6; padding-bottom: 1px; }
-        .result-box { background: #020617; border-radius: 24px; border: 1px solid #1e293b; padding: 25px; }
-        input, textarea, select { background: #0f172a !important; border: 1px solid #334155 !important; color: white !important; }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; color: #1e293b; }
+        .sidebar { background: #0f172a; transition: all 0.3s ease; }
+        .nav-link { color: #94a3b8; transition: all 0.2s; }
+        .nav-link:hover, .nav-link.active { color: #f8fafc; background: #1e293b; }
+        .card { background: white; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .pro-badge { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; }
+        .highlight-blue { color: #2563eb; font-weight: 800; border-bottom: 2px solid #dbeafe; }
+        .result-box { background: #f1f5f9; border-radius: 16px; padding: 24px; border: 1px solid #e2e8f0; }
+        /* Professional Chart Styling */
+        canvas { max-height: 250px; }
     </style>
 </head>
-<body class="p-4 md:p-8 min-h-screen">
+<body class="flex min-h-screen">
 
-    <div class="max-w-[1400px] mx-auto">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-12">
-            <div>
-                <h1 class="text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">AI CONTENT ARCHITECT</h1>
-                <p class="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-bold">Advanced Niche Intelligence System</p>
+    <aside class="sidebar w-64 fixed inset-y-0 left-0 hidden md:flex flex-col p-6 z-50">
+        <div class="mb-10">
+            <h1 class="text-white text-xl font-extrabold tracking-tight">AI ARCHITECT <span class="pro-badge uppercase">v4.0</span></h1>
+        </div>
+        
+        <nav class="flex-grow space-y-2">
+            <button onclick="showTab('nicheTab')" class="nav-link active w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm">
+                <span>📊</span> Intelligence
+            </button>
+            <button onclick="showTab('imageTab')" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm">
+                <span>🎨</span> Image Studio
+            </button>
+            <button onclick="showTab('visionTab')" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm">
+                <span>👁️</span> Vision Master
+            </button>
+            <button onclick="showTab('storeTab')" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm">
+                <span>📂</span> Archive
+            </button>
+        </nav>
+
+        <div class="mt-auto pt-6 border-t border-slate-800">
+            <div class="flex items-center gap-3">
+                <div class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center font-bold text-white text-xs">AS</div>
+                <div class="text-xs">
+                    <p class="text-white font-bold">A/L Student</p>
+                    <p class="text-slate-500">Pro Account</p>
+                </div>
             </div>
-            <nav class="flex space-x-2 bg-slate-900/50 p-1.5 rounded-2xl border border-slate-800 scrollbar-hide overflow-x-auto">
-                <button id="btn-nicheTab" onclick="showTab('nicheTab')" class="nav-tab active-tab px-6 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap">Intelligence</button>
-                <button id="btn-imageTab" onclick="showTab('imageTab')" class="nav-tab px-6 py-2.5 rounded-xl text-xs font-bold text-slate-500 whitespace-nowrap">Image Studio</button>
-                <button id="btn-visionTab" onclick="showTab('visionTab')" class="nav-tab px-6 py-2.5 rounded-xl text-xs font-bold text-slate-500 whitespace-nowrap">Vision Master</button>
-                <button id="btn-storeTab" onclick="showTab('storeTab')" class="nav-tab px-6 py-2.5 rounded-xl text-xs font-bold text-slate-500 whitespace-nowrap">Archive</button>
-            </nav>
+        </div>
+    </aside>
+
+    <main class="flex-grow md:ml-64 p-6 md:p-10">
+        
+        <div class="flex items-center justify-between mb-10">
+            <h2 id="tabTitle" class="text-2xl font-extrabold text-slate-800 italic">Niche Intelligence Report</h2>
+            <div class="bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200 flex items-center gap-2">
+                <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Real-time Analysis Active</span>
+            </div>
         </div>
 
         <div id="nicheTab" class="tab-content">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 
-                <div class="lg:col-span-3 space-y-6">
-                    <div class="glass-card p-6">
-                        <h2 class="text-sm font-black text-slate-400 mb-6 uppercase tracking-widest">Niche Scanner</h2>
-                        <input type="text" id="nicheInput" class="w-full p-4 rounded-xl text-sm mb-4 outline-none" placeholder="e.g., Wildlife, Ship POV...">
-                        <button onclick="analyzeNichePro()" id="analyzeBtn" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-black text-xs transition-all flex items-center justify-center gap-2">
-                            <span id="btnText">RUN ANALYSIS</span>
-                            <div id="loader" class="hidden animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
-                        </button>
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="card p-8">
+                        <h3 class="text-sm font-black text-slate-400 mb-6 uppercase tracking-widest">Scanner Input</h3>
+                        <div class="space-y-4">
+                            <label class="text-xs font-bold text-slate-500">Target Niche / Topic</label>
+                            <input type="text" id="nicheInput" class="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl outline-none focus:ring-2 focus:ring-blue-100 transition-all text-sm" placeholder="e.g., Wildlife Rescue Story">
+                            <button onclick="runProAnalysis()" id="analyzeBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-xl text-xs transition-all shadow-lg flex items-center justify-center gap-2">
+                                <span id="btnText">EXECUTE ANALYSIS</span>
+                                <div id="loader" class="hidden animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
+                            </button>
+                        </div>
                     </div>
 
-                    <div id="stepTwo" class="glass-card p-6 hidden opacity-0 translate-y-5 transition-all duration-700">
-                        <h3 class="text-[10px] font-black text-emerald-500 mb-4 uppercase tracking-[0.2em]">Step 2: Package Select</h3>
+                    <div id="stepTwo" class="card p-8 hidden opacity-0 translate-y-5 transition-all duration-700 border-l-4 border-emerald-500">
+                        <h3 class="text-xs font-black text-emerald-600 mb-4 uppercase tracking-widest">Step 2: Package Select</h3>
+                        <p class="text-[11px] text-slate-400 mb-6">Analysis complete. Select your content type to generate Master Prompts.</p>
                         <div class="grid gap-3">
-                            <button onclick="generatePackage('image')" class="p-4 bg-slate-900 border border-slate-800 rounded-xl hover:border-blue-500 text-left transition-all">
-                                <p class="text-xs font-black text-white">IMAGE PACKAGE</p>
-                                <p class="text-[9px] text-slate-500">Instagram/FB Carousel Style</p>
+                            <button onclick="generateFinalPackage('image')" class="p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-blue-500 text-left transition-all group">
+                                <p class="text-xs font-black text-slate-700 group-hover:text-blue-600">IMAGE POST SYSTEM</p>
+                                <p class="text-[9px] text-slate-400">Carousel, Pinterest & Meta Optimized</p>
                             </button>
-                            <button onclick="generatePackage('video')" class="p-4 bg-slate-900 border border-slate-800 rounded-xl hover:border-purple-500 text-left transition-all">
-                                <p class="text-xs font-black text-white">VIDEO PACKAGE</p>
-                                <p class="text-[9px] text-slate-500">TikTok/Reels Scene Storyboard</p>
+                            <button onclick="generateFinalPackage('video')" class="p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-purple-500 text-left transition-all group">
+                                <p class="text-xs font-black text-slate-700 group-hover:text-purple-600">VIDEO + IMAGE SYSTEM</p>
+                                <p class="text-[9px] text-slate-400">Scene Storyboard, TikTok & Reels Ready</p>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-9 space-y-8">
-                    <div id="reportContainer" class="glass-card p-8 min-h-[600px]">
-                        <div id="placeholder" class="h-full flex flex-col items-center justify-center py-32 opacity-20">
-                            <p class="text-[10px] font-black tracking-[0.5em] uppercase">Ready for System Injection</p>
+                <div class="lg:col-span-8 space-y-6">
+                    <div id="mainReportArea" class="card p-8 min-h-[600px] flex flex-col relative overflow-hidden">
+                        
+                        <div id="placeholder" class="h-full flex flex-col items-center justify-center py-40 text-slate-300">
+                            <span class="text-6xl mb-4 opacity-20">📈</span>
+                            <p class="font-black text-[10px] uppercase tracking-[0.4em]">Awaiting Data Injection</p>
                         </div>
 
-                        <div id="analysisView" class="hidden">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                                <div class="metric-card">
-                                    <p class="text-[10px] font-black text-slate-500 uppercase">Growth Potential</p>
-                                    <p id="metric-growth" class="text-3xl font-black text-blue-400 mt-2">--</p>
+                        <div id="dataView" class="hidden">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                                    <p class="text-[9px] font-black text-slate-400 uppercase">Est. Reach</p>
+                                    <p id="m-reach" class="text-2xl font-black text-blue-600 mt-1">--</p>
                                 </div>
-                                <div class="metric-card">
-                                    <p class="text-[10px] font-black text-slate-500 uppercase">Viral Score</p>
-                                    <p id="metric-viral" class="text-3xl font-black text-purple-400 mt-2">--</p>
+                                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                                    <p class="text-[9px] font-black text-slate-400 uppercase">Viral Velocity</p>
+                                    <p id="m-viral" class="text-2xl font-black text-purple-600 mt-1">--</p>
                                 </div>
-                                <div class="metric-card">
-                                    <p class="text-[10px] font-black text-slate-500 uppercase">Competition</p>
-                                    <p id="metric-comp" class="text-3xl font-black text-emerald-400 mt-2">--</p>
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                                <div class="bg-slate-950/50 p-6 rounded-3xl border border-slate-800">
-                                    <p class="text-[10px] font-black text-slate-500 mb-6 uppercase">Interest Over Time</p>
-                                    <canvas id="mainChart" height="200"></canvas>
-                                </div>
-                                <div class="bg-slate-950/50 p-6 rounded-3xl border border-slate-800">
-                                    <p class="text-[10px] font-black text-slate-500 mb-6 uppercase">Audience Breakdown</p>
-                                    <canvas id="pieChart" height="200"></canvas>
+                                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                                    <p class="text-[9px] font-black text-slate-400 uppercase">Difficulty</p>
+                                    <p id="m-diff" class="text-2xl font-black text-slate-700 mt-1">--</p>
                                 </div>
                             </div>
 
-                            <h2 class="text-xl font-black mb-6 text-white italic underline decoration-blue-500">DEEP STRATEGY REPORT</h2>
-                            <div id="deepReportText" class="result-box prose prose-invert prose-sm max-w-none mb-10 text-slate-300 leading-relaxed"></div>
-
-                            <div id="finalOutput" class="hidden opacity-0 transition-all duration-700 mt-12">
-                                <div class="flex items-center gap-3 mb-6">
-                                    <div class="h-1 w-12 bg-emerald-500 rounded-full"></div>
-                                    <h3 class="text-sm font-black text-emerald-500 uppercase">ENGINEERED MASTER PROMPT SYSTEM</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                                <div>
+                                    <p class="text-[10px] font-black text-slate-400 mb-4 uppercase">Popularity Trend</p>
+                                    <canvas id="trendChart"></canvas>
                                 </div>
-                                <div id="finalPromptBox" class="result-box bg-blue-900/10 border-blue-500/30 prose prose-invert prose-blue max-w-none shadow-2xl"></div>
-                                <button onclick="saveToArchive()" class="mt-6 bg-emerald-600 px-8 py-3 rounded-xl font-black text-[10px] uppercase">Save to Archive 💾</button>
+                                <div>
+                                    <p class="text-[10px] font-black text-slate-400 mb-4 uppercase">Demographic Focus</p>
+                                    <canvas id="demChart"></canvas>
+                                </div>
+                            </div>
+
+                            <h3 class="text-lg font-extrabold text-slate-800 mb-4 flex items-center gap-2">
+                                <span class="h-1 w-6 bg-blue-600 rounded"></span> DEEP ANALYTICS SUMMARY
+                            </h3>
+                            <div id="strategyReport" class="prose prose-sm max-w-none text-slate-600 mb-12 result-box leading-relaxed"></div>
+
+                            <div id="masterPromptArea" class="hidden opacity-0 transition-all duration-700 mt-12">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="text-sm font-black text-emerald-600 uppercase tracking-widest">Engineered Master Prompt</h3>
+                                    <button onclick="copyToClipboard('finalPromptBox')" class="text-[10px] font-black bg-slate-100 hover:bg-slate-200 px-3 py-1 rounded-lg uppercase transition-all">Copy Prompt</button>
+                                </div>
+                                <div id="finalPromptBox" class="result-box bg-slate-900 text-slate-300 font-mono text-xs border-none shadow-2xl p-8 max-h-[600px] overflow-y-auto"></div>
                             </div>
                         </div>
+
                     </div>
                 </div>
+
             </div>
         </div>
 
-        <div id="imageTab" class="tab-content hidden"><div class="glass-card p-20 text-center opacity-50 uppercase font-black tracking-widest">Image Studio Ready</div></div>
-        <div id="visionTab" class="tab-content hidden"><div class="glass-card p-20 text-center opacity-50 uppercase font-black tracking-widest">Vision Master Ready</div></div>
-        <div id="storeTab" class="tab-content hidden"><div class="glass-card p-20 text-center opacity-50 uppercase font-black tracking-widest">Archive System Ready</div></div>
+        <div id="imageTab" class="tab-content hidden"><div class="card p-20 text-center text-slate-400 font-black uppercase italic">Image Studio Module Ready</div></div>
+        <div id="visionTab" class="tab-content hidden"><div class="card p-20 text-center text-slate-400 font-black uppercase italic">Vision Master Module Ready</div></div>
+        <div id="storeTab" class="tab-content hidden"><div class="card p-20 text-center text-slate-400 font-black uppercase italic">Archive System Ready</div></div>
 
-    </div>
+    </main>
 
     <script>
-        const WORKER_URL = "https://my-ai-backend.freyaendicott.workers.dev"; // ඔයාගේ URL එක දාන්න
-        let charts = {};
-        let rawPackageData = "";
+        const WORKER_URL = "https://my-ai-backend.freyaendicott.workers.dev"; // <--- CHANGE THIS
+        let activeCharts = {};
 
         function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
             document.getElementById(tabId).classList.remove('hidden');
-            document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active-tab', 'text-white'));
-            document.getElementById('btn-' + tabId).classList.add('active-tab', 'text-white');
+            document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+            // In a real app we'd target the specific button, but for this demo:
+            const titles = { nicheTab: "Niche Intelligence Report", imageTab: "Image Studio Rendering", visionTab: "Vision Master Analysis", storeTab: "Content Archive" };
+            document.getElementById('tabTitle').innerText = titles[tabId];
         }
 
-        async function analyzeNichePro() {
+        // --- STEP 1: PRO ANALYSIS ---
+        async function runProAnalysis() {
             const niche = document.getElementById('nicheInput').value;
-            if(!niche) return alert("Please enter a niche!");
+            if(!niche) return alert("Enter Niche!");
 
             const loader = document.getElementById('loader');
             const btnText = document.getElementById('btnText');
             btnText.classList.add('hidden'); loader.classList.remove('hidden');
 
-            // Instructing Gemini to return specific data for visuals
-            const p = `Deeply analyze the niche "${niche}" for a professional social media page. 
-            Return ONLY a JSON object:
+            const instruction = `Perform a high-level marketing analysis for niche "${niche}". Output ONLY a valid JSON object:
             {
-                "metrics": {"growth": "85%", "viral": "92/100", "comp": "Medium"},
-                "chartData": [65, 59, 80, 81, 56, 95],
-                "pieData": [40, 25, 20, 15],
-                "report": "A very detailed, professional analysis in English. Highlight special keywords using <span class='pro-highlight'>Topic</span>. Focus on demographics, pain points, and desires."
+                "metrics": {"reach": "1.2M+", "viral": "94/100", "diff": "Low-Mid"},
+                "trend": [20, 45, 28, 80, 75, 95],
+                "demo": [45, 30, 15, 10],
+                "report": "Detailed 4-5 bullet point strategy in English. Use <span class='highlight-blue'>Topic</span> for important keywords. Discuss target audience desires and content hooks."
             }`;
 
             try {
-                const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "generate_text", prompt: p }) });
+                const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "generate_text", prompt: instruction }) });
                 const data = await res.json();
                 const json = JSON.parse(data.result.replace(/```json|```/g, ''));
-
-                renderUI(json);
-            } catch(e) {
-                alert("Analysis failed. Check console.");
-                console.log(e);
-            } finally {
-                btnText.classList.remove('hidden'); loader.classList.add('hidden');
-            }
+                
+                renderIntelligence(json);
+            } catch(e) { alert("Analysis failed. Try again."); }
+            finally { btnText.classList.remove('hidden'); loader.classList.add('hidden'); }
         }
 
-        function renderUI(json) {
+        function renderIntelligence(json) {
             document.getElementById('placeholder').classList.add('hidden');
-            document.getElementById('analysisView').classList.remove('hidden');
+            document.getElementById('dataView').classList.remove('hidden');
             
-            // Metrics
-            document.getElementById('metric-growth').innerText = json.metrics.growth;
-            document.getElementById('metric-viral').innerText = json.metrics.viral;
-            document.getElementById('metric-comp').innerText = json.metrics.comp;
+            // Render Stats
+            document.getElementById('m-reach').innerText = json.metrics.reach;
+            document.getElementById('m-viral').innerText = json.metrics.viral;
+            document.getElementById('m-diff').innerText = json.metrics.diff;
 
-            // Text
-            document.getElementById('deepReportText').innerHTML = marked.parse(json.report);
+            // Render Text Report
+            document.getElementById('strategyReport').innerHTML = marked.parse(json.report);
 
-            // Charts
-            renderCharts(json.chartData, json.pieData);
+            // Render Charts (Chart.js)
+            const ctx1 = document.getElementById('trendChart').getContext('2d');
+            const ctx2 = document.getElementById('demChart').getContext('2d');
 
-            // Step 2
+            if(activeCharts.t) activeCharts.t.destroy();
+            if(activeCharts.d) activeCharts.d.destroy();
+
+            activeCharts.t = new Chart(ctx1, {
+                type: 'line',
+                data: { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], datasets: [{ label: 'Trend', data: json.trend, borderColor: '#3b82f6', tension: 0.4, fill: true, backgroundColor: 'rgba(59, 130, 246, 0.05)' }] },
+                options: { plugins: { legend: false }, scales: { y: { display: false } } }
+            });
+
+            activeCharts.d = new Chart(ctx2, {
+                type: 'doughnut',
+                data: { labels: ['18-24', '25-34', '35-44', '45+'], datasets: [{ data: json.demo, backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#f1f5f9'], borderWidth: 0 }] },
+                options: { plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } } } }
+            });
+
+            // Show Step 2
             const s2 = document.getElementById('stepTwo');
             s2.classList.remove('hidden');
             setTimeout(() => s2.classList.add('opacity-100', 'translate-y-0'), 100);
         }
 
-        function renderCharts(barData, pieData) {
-            if(charts.main) charts.main.destroy();
-            if(charts.pie) charts.pie.destroy();
-
-            const ctx1 = document.getElementById('mainChart').getContext('2d');
-            charts.main = new Chart(ctx1, {
-                type: 'bar',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{ label: 'Reach', data: barData, backgroundColor: '#3b82f6', borderRadius: 10 }]
-                },
-                options: { plugins: { legend: false }, scales: { y: { display: false }, x: { grid: { display: false } } } }
-            });
-
-            const ctx2 = document.getElementById('pieChart').getContext('2d');
-            charts.pie = new Chart(ctx2, {
-                type: 'doughnut',
-                data: {
-                    labels: ['US/EU', 'Asia', 'LatAm', 'Other'],
-                    datasets: [{ data: pieData, backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#1e293b'], borderWidth: 0 }]
-                },
-                options: { plugins: { legend: { position: 'bottom', labels: { color: '#64748b', font: { size: 9 } } } } }
-            });
-        }
-
-        async function generatePackage(type) {
+        // --- STEP 2: MASTER PROMPT GENERATION ---
+        async function generateFinalPackage(type) {
             const niche = document.getElementById('nicheInput').value;
             const resBox = document.getElementById('finalPromptBox');
-            const container = document.getElementById('finalOutput');
+            const area = document.getElementById('masterPromptArea');
             
-            container.classList.remove('hidden');
-            resBox.innerHTML = "<p class='animate-pulse text-blue-400'>ENGINEERING ELITE " + type.toUpperCase() + " SYSTEM... GATHERING CAMERA DATA & STORYBOARD SCENES...</p>";
+            area.classList.remove('hidden');
+            resBox.innerHTML = "<p class='animate-pulse text-blue-400 font-bold'>ENGINEERING ELITE " + type.toUpperCase() + " MASTER PROMPT SYSTEM... COLLECTING SENSOR DATA... WRITING SCENE STORYBOARDS...</p>";
 
-            const prompt = `Act as an Elite Prompt Engineer. Generate a MASSIVE MASTER PROMPT for niche: "${niche}". 
-            User selected: ${type === 'video' ? 'VIDEO + IMAGE' : 'IMAGE ONLY'}.
-            Follow the 7-Phase ELITE template (Role, Mission, Style, Idea Gen, Storyboard, Technical AI Prompts, Caption, Hashtags).
-            For VIDEO: Write scene-by-scene storyboard (Scene 1, 2, 3...) with specific camera movements and reference image prompts.
-            Use professional terminology (e.g., Bow forward deck level, Golden hour, DSLR, RAW photo).`;
+            const prompt = `Act as an Elite AI Prompt Engineer. Generate a MASSIVE MASTER PROMPT for niche: "${niche}". 
+            Selection: ${type === 'video' ? 'VIDEO + IMAGE PACKAGE' : 'IMAGE ONLY PACKAGE'}.
+            Template Requirements:
+            - Follow the 7-Phase ELITE structure (Role, Mission, Style, Ideas, Technical Prompts, Captions, Strategy).
+            - For VIDEO: Create a scene-by-scene storyboard (Scene 1-5) with camera movements and lighting specs.
+            - Use professional terms (RAW photo, 8k, bokeh, anamorphic lens, shutter 1/1000s).
+            - Output must be high-level and ready for top-tier image/video AI models.`;
 
             try {
                 const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "generate_text", prompt: prompt }) });
                 const data = await res.json();
-                rawPackageData = data.result;
-                resBox.innerHTML = marked.parse(rawPackageData);
-                setTimeout(() => container.classList.add('opacity-100'), 100);
-                container.scrollIntoView({ behavior: 'smooth' });
-            } catch(e) { alert("Package generation failed."); }
+                resBox.innerHTML = marked.parse(data.result);
+                setTimeout(() => area.classList.add('opacity-100'), 100);
+                area.scrollIntoView({ behavior: 'smooth' });
+            } catch(e) { alert("Generation failed!"); }
         }
 
-        function saveToArchive() {
-            alert("Saved to Archive Master Database!");
-            // Implementation for Supabase can go here later
+        function copyToClipboard(id) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(() => alert("Master Prompt Copied!"));
         }
     </script>
 </body>
