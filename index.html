@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Master Workspace | v3.0 PRO</title>
+    <title>AI Master Workspace | v3.1 PRO</title>
     
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -11,15 +11,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #020617; color: #f8fafc; }
+        /* Base font size වැඩි කර ඇත */
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #020617; color: #f8fafc; font-size: 16px; }
         .glass-card { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 28px; }
-        .nav-tab { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .active-tab { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4); }
+        .nav-tab { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-size: 15px; padding: 12px 24px; }
+        .active-tab { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white !important; box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4); }
         .pro-gradient-text { background: linear-gradient(to right, #60a5fa, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .result-box { background: #020617; border-radius: 24px; padding: 25px; border: 1px solid #1e293b; shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05); }
-        input, textarea, select { background: #0f172a !important; border: 1px solid #1e293b !important; color: #f8fafc !important; }
+        .result-box { background: #020617; border-radius: 24px; padding: 25px; border: 1px solid #1e293b; box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05); font-size: 1.05rem; line-height: 1.8; }
+        /* Textboxes ලොකු කර ඇත */
+        input, textarea, select { background: #0f172a !important; border: 1px solid #1e293b !important; color: #f8fafc !important; font-size: 1rem !important; padding: 16px !important; }
         input:focus, textarea:focus { border-color: #3b82f6 !important; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1); }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
+        /* අලුත් Copy Button එක */
+        .copy-btn { background: #10b981; color: white; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 800; transition: all 0.2s; text-transform: uppercase; cursor: pointer; }
+        .copy-btn:hover { background: #059669; transform: scale(1.05); }
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -27,7 +32,7 @@
     <div class="max-w-7xl mx-auto">
         <header class="mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <div>
-                <h1 class="text-3xl font-extrabold pro-gradient-text">AI Master Workspace <span class="text-[10px] font-black bg-blue-600 text-white px-2 py-1 rounded-md ml-1">v3.0 PRO</span></h1>
+                <h1 class="text-3xl font-extrabold pro-gradient-text">AI Master Workspace <span class="text-[10px] font-black bg-blue-600 text-white px-2 py-1 rounded-md ml-1">v3.1 PRO</span></h1>
                 <p class="text-slate-500 font-medium text-xs mt-1 uppercase tracking-widest">Next-Gen Content Engineering</p>
             </div>
             <div class="flex items-center gap-3 bg-slate-900/50 px-4 py-2 rounded-full border border-slate-800">
@@ -37,22 +42,22 @@
         </header>
 
         <div class="flex space-x-2 bg-slate-950/50 p-2 rounded-2xl mb-10 overflow-x-auto scrollbar-hide border border-slate-900">
-            <button id="btn-promptTab" onclick="showTab('promptTab')" class="nav-tab px-6 py-3 rounded-xl text-xs font-bold text-slate-500 whitespace-nowrap">Prompt Master</button>
-            <button id="btn-imageTab" onclick="showTab('imageTab')" class="nav-tab px-6 py-3 rounded-xl text-xs font-bold text-slate-500 whitespace-nowrap">Image Studio</button>
-            <button id="btn-nicheTab" onclick="showTab('nicheTab')" class="nav-tab active-tab px-6 py-3 rounded-xl text-xs font-bold whitespace-nowrap">Content Manager</button>
-            <button id="btn-visionTab" onclick="showTab('visionTab')" class="nav-tab px-6 py-3 rounded-xl text-xs font-bold text-slate-500 whitespace-nowrap">Vision Master 👁️</button>
-            <button id="btn-storeTab" onclick="showTab('storeTab')" class="nav-tab px-6 py-3 rounded-xl text-xs font-bold text-slate-500 whitespace-nowrap">Store Master</button>
+            <button id="btn-promptTab" onclick="showTab('promptTab')" class="nav-tab rounded-xl font-bold text-slate-500 whitespace-nowrap">Prompt Master</button>
+            <button id="btn-imageTab" onclick="showTab('imageTab')" class="nav-tab rounded-xl font-bold text-slate-500 whitespace-nowrap">Image Studio</button>
+            <button id="btn-nicheTab" onclick="showTab('nicheTab')" class="nav-tab active-tab rounded-xl font-bold whitespace-nowrap">Content Manager</button>
+            <button id="btn-visionTab" onclick="showTab('visionTab')" class="nav-tab rounded-xl font-bold text-slate-500 whitespace-nowrap">Vision Master 👁️</button>
+            <button id="btn-storeTab" onclick="showTab('storeTab')" class="nav-tab rounded-xl font-bold text-slate-500 whitespace-nowrap">Store Master</button>
         </div>
 
         <div id="promptTab" class="tab-content hidden">
             <div class="glass-card p-8 max-w-4xl mx-auto">
                 <h2 class="text-xl font-bold mb-6 text-white border-l-4 border-blue-500 pl-4">Prompt Engineering</h2>
-                <textarea id="basicIdea" class="w-full p-5 rounded-2xl mb-6 outline-none text-sm" rows="4" placeholder="Enter basic idea for AI optimization..."></textarea>
+                <textarea id="basicIdea" class="w-full rounded-2xl mb-6 outline-none" rows="4" placeholder="Enter basic idea for AI optimization..."></textarea>
                 <button onclick="generatePrompt()" id="genBtn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-8 py-4 rounded-xl transition-all shadow-lg">Enhance Prompt ✨</button>
                 <div class="mt-10">
                     <h3 class="text-sm font-black text-slate-400 mb-4 uppercase tracking-widest">Engineered Output:</h3>
-                    <div id="enhancedPrompt" class="prose prose-invert prose-sm max-w-none result-box min-h-[150px]"></div>
-                    <button onclick="saveToStore('Prompt', rawPromptData)" class="mt-4 bg-emerald-600 px-6 py-2 rounded-lg text-xs font-bold">Save to Store 💾</button>
+                    <div id="enhancedPrompt" class="prose prose-invert prose-lg max-w-none result-box min-h-[150px]"></div>
+                    <button onclick="saveToStore('Prompt', rawPromptData)" class="mt-4 bg-emerald-600 px-6 py-2 rounded-lg text-xs font-bold text-white">Save to Store 💾</button>
                 </div>
             </div>
         </div>
@@ -63,16 +68,18 @@
                     <div class="glass-card p-8">
                         <h2 class="text-xl font-bold mb-6 text-white">Image Parameters</h2>
                         <div class="space-y-4">
-                            <div><label class="text-[10px] font-black text-slate-500 uppercase">Quality</label>
-                            <select id="imgQuality" class="w-full p-3 mt-1 rounded-xl text-sm outline-none"><option value="8k, photorealistic, cinematic, raw photo">Cinematic Realistic</option></select></div>
-                            <div><label class="text-[10px] font-black text-slate-500 uppercase">Aspect Ratio</label>
-                            <select id="imgRatio" class="w-full p-3 mt-1 rounded-xl text-sm outline-none">
-                                <option value="1024x1024">1:1 Square</option>
-                                <option value="768x1344">9:16 Vertical</option>
-                                <option value="1344x768">16:9 Landscape</option>
+                            <div><label class="text-xs font-black text-slate-500 uppercase block mb-2">Quality</label>
+                            <select id="imgQuality" class="w-full rounded-xl outline-none"><option value="8k, photorealistic, cinematic, raw photo">Cinematic Realistic</option></select></div>
+                            <div><label class="text-xs font-black text-slate-500 uppercase block mb-2">Aspect Ratio</label>
+                            <select id="imgRatio" class="w-full rounded-xl outline-none">
+                                <option value="1024x1024">1:1 (Square - IG Post)</option>
+                                <option value="896x1120">4:5 (Portrait - FB/IG)</option>
+                                <option value="768x1344">9:16 (Vertical - Shorts/TikTok)</option>
+                                <option value="1344x768">16:9 (Landscape - YouTube)</option>
+                                <option value="1152x896">4:3 (Standard Photo)</option>
                             </select></div>
-                            <textarea id="imagePrompt" class="w-full p-4 rounded-xl text-sm mt-4" rows="5" placeholder="Paste Master Prompt..."></textarea>
-                            <button onclick="generateImage()" id="imgBtn" class="w-full bg-blue-600 py-4 rounded-xl font-bold text-sm shadow-lg">Render Masterpiece 🎨</button>
+                            <textarea id="imagePrompt" class="w-full rounded-xl mt-4" rows="5" placeholder="Paste Master Prompt..."></textarea>
+                            <button onclick="generateImage()" id="imgBtn" class="w-full bg-blue-600 py-4 rounded-xl font-bold text-white shadow-lg mt-2">Render Masterpiece 🎨</button>
                             <span id="imgStatus" class="block text-center text-[10px] text-slate-500 font-bold mt-2 uppercase tracking-tighter"></span>
                         </div>
                     </div>
@@ -82,9 +89,9 @@
                         <h3 class="text-sm font-black text-slate-500 mb-6 uppercase tracking-widest">Rendering Preview</h3>
                         <div class="flex-grow flex items-center justify-center border-2 border-dashed border-slate-800 rounded-[2rem] bg-slate-950/30 overflow-hidden relative group">
                             <img id="resultImage" class="max-w-full max-h-[650px] rounded-2xl hidden shadow-2xl transition-transform duration-700 group-hover:scale-105" />
-                            <p id="imagePlaceholder" class="text-slate-700 font-black text-xs uppercase tracking-widest">No Active Render</p>
+                            <p id="imagePlaceholder" class="text-slate-700 font-black text-sm uppercase tracking-widest">No Active Render</p>
                         </div>
-                        <button onclick="downloadImage()" id="downloadBtn" class="mt-4 bg-emerald-600 py-3 rounded-xl font-bold text-sm hidden">Download Image ⬇️</button>
+                        <button onclick="downloadImage()" id="downloadBtn" class="mt-4 bg-emerald-600 py-3 text-white rounded-xl font-bold hidden">Download Image ⬇️</button>
                     </div>
                 </div>
             </div>
@@ -95,38 +102,44 @@
                 <div class="lg:col-span-4 space-y-6">
                     <div class="glass-card p-8">
                         <h2 class="text-xl font-bold mb-4 text-white italic">Niche Intelligence</h2>
-                        <input type="text" id="nicheInput" class="w-full p-4 rounded-xl outline-none text-sm mb-4" placeholder="Enter Niche (e.g., Wildlife POV)">
-                        <button onclick="analyzeNiche()" id="analyzeBtn" class="w-full bg-blue-600 py-4 rounded-xl font-bold flex items-center justify-center gap-2">
+                        <input type="text" id="nicheInput" class="w-full rounded-xl outline-none mb-4" placeholder="Enter Niche (e.g., Wildlife POV)">
+                        <button onclick="analyzeNiche()" id="analyzeBtn" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2">
                             <span id="btnText">Analyze Niche</span>
                             <div id="loader" class="hidden animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
                         </button>
                     </div>
-                    <div id="packageSelection" class="glass-card p-8 hidden opacity-0 translate-y-5 transition-all duration-700">
+                    <div id="packageSelection" class="glass-card p-8 hidden opacity-0 translate-y-5 transition-all duration-700 border-l-4 border-emerald-500">
                         <h3 class="text-xs font-black text-emerald-500 mb-4 uppercase">Step 2: Selection</h3>
                         <div class="grid gap-3">
                             <button onclick="finalGenerate('image')" class="p-4 bg-slate-900 border border-slate-800 rounded-xl text-left hover:border-blue-500 transition-all">
-                                <div class="font-bold text-sm">Image Post Package</div>
-                                <div class="text-[10px] text-slate-500 uppercase">Static/Carousel Optimized</div>
+                                <div class="font-bold text-white">Image Post Package</div>
+                                <div class="text-[10px] text-slate-500 uppercase mt-1">Static/Carousel Optimized</div>
                             </button>
                             <button onclick="finalGenerate('video')" class="p-4 bg-slate-900 border border-slate-800 rounded-xl text-left hover:border-purple-500 transition-all">
-                                <div class="font-bold text-sm">Video + Image Package</div>
-                                <div class="text-[10px] text-slate-500 uppercase">Reels/TikTok Storyboard</div>
+                                <div class="font-bold text-white">Video + Image Package</div>
+                                <div class="text-[10px] text-slate-500 uppercase mt-1">Reels/TikTok Storyboard</div>
                             </button>
                         </div>
                     </div>
                 </div>
                 <div class="lg:col-span-8 space-y-6">
                     <div id="reportArea" class="glass-card p-8 min-h-[600px]">
-                        <div id="reportPlaceholder" class="flex flex-col items-center justify-center py-24 text-slate-800"><p class="text-[10px] font-black uppercase tracking-widest">Waiting for Data Injection</p></div>
+                        <div id="reportPlaceholder" class="flex flex-col items-center justify-center py-32 text-slate-800"><p class="text-xs font-black uppercase tracking-[0.3em]">Waiting for Data Injection</p></div>
+                        
                         <div id="reportContent" class="hidden">
-                            <div class="flex justify-between items-center mb-10"><h2 class="text-2xl font-black italic underline decoration-blue-500">RESEARCH REPORT</h2></div>
+                            <div class="flex justify-between items-center mb-10"><h2 class="text-2xl font-black italic text-white underline decoration-blue-500">RESEARCH REPORT</h2></div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
                                 <div class="bg-slate-950 p-6 rounded-3xl border border-slate-900"><canvas id="growthChart"></canvas></div>
                                 <div class="bg-slate-950 p-6 rounded-3xl border border-slate-900"><canvas id="ageChart"></canvas></div>
                             </div>
-                            <div id="strategyText" class="result-box mb-8 prose prose-invert prose-sm max-w-none"></div>
-                            <div id="finalPromptContainer" class="hidden transition-all duration-700">
-                                <div id="finalPromptResult" class="result-box bg-blue-900/10 border-blue-500/30 prose prose-invert prose-blue max-w-none shadow-2xl"></div>
+                            <div id="strategyText" class="result-box mb-8 prose prose-invert prose-lg max-w-none text-slate-300"></div>
+                            
+                            <div id="finalPromptContainer" class="hidden transition-all duration-700 mt-10">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="text-sm font-black text-emerald-500 uppercase tracking-widest">Engineered Master Prompt</h3>
+                                    <button onclick="copyMasterPrompt()" class="copy-btn">Copy Prompt 📋</button>
+                                </div>
+                                <div id="finalPromptResult" class="result-box bg-blue-900/10 border-blue-500/30 prose prose-invert prose-blue max-w-none shadow-2xl font-mono text-[15px] overflow-x-auto whitespace-pre-wrap"></div>
                             </div>
                         </div>
                     </div>
@@ -141,14 +154,14 @@
                     <div class="border-4 border-dashed border-slate-900 rounded-[2.5rem] p-4 flex flex-col justify-center items-center bg-slate-950/30 min-h-[400px] relative mb-6">
                         <input type="file" id="imageInput" accept="image/*" onchange="handleImageSelect(event)" class="absolute inset-0 opacity-0 cursor-pointer z-20">
                         <img id="uploadPreview" class="max-w-full max-h-[350px] rounded-2xl hidden shadow-2xl z-10" />
-                        <div id="uploadPlaceholder" class="text-center text-slate-600">📸<br><p class="text-[10px] font-black uppercase mt-2">Drop Image to Analyze</p></div>
+                        <div id="uploadPlaceholder" class="text-center text-slate-600"><span class="text-4xl">📸</span><br><p class="text-xs font-black uppercase mt-4">Drop Image to Analyze</p></div>
                     </div>
-                    <button onclick="extractPrompt()" id="extractBtn" class="w-full bg-blue-600 py-4 rounded-xl font-bold shadow-lg transition-all">Extract Master Prompt</button>
+                    <button onclick="extractPrompt()" id="extractBtn" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-4 rounded-xl font-bold shadow-lg transition-all">Extract Master Prompt</button>
                 </div>
                 <div class="lg:col-span-7 glass-card p-8 flex flex-col">
                     <h3 class="text-sm font-black text-slate-500 mb-6 uppercase tracking-widest">Vision Logic Output</h3>
-                    <div id="visionResult" class="result-box flex-grow prose prose-invert prose-sm max-w-none"></div>
-                    <button onclick="saveToStore('Vision Prompt', rawVisionData)" class="mt-4 bg-emerald-600 py-3 rounded-xl font-bold text-xs">Save Prompt 💾</button>
+                    <div id="visionResult" class="result-box flex-grow prose prose-invert prose-lg max-w-none text-slate-300"></div>
+                    <button onclick="saveToStore('Vision Prompt', rawVisionData)" class="mt-6 bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-xl font-bold text-sm">Save Prompt 💾</button>
                 </div>
             </div>
         </div>
@@ -157,8 +170,8 @@
             <div class="glass-card p-8">
                 <h2 class="text-xl font-bold mb-8 text-white">Store Master</h2>
                 <div class="flex gap-4 mb-10">
-                    <button onclick="loadStore()" class="bg-slate-800 px-6 py-3 rounded-xl text-xs font-bold">Refresh 🔄</button>
-                    <button onclick="clearStore()" class="bg-red-900/30 text-red-500 px-6 py-3 rounded-xl text-xs font-bold border border-red-900/50">Clear All 🗑️</button>
+                    <button onclick="loadStore()" class="bg-slate-800 text-white px-6 py-3 rounded-xl text-sm font-bold">Refresh 🔄</button>
+                    <button onclick="clearStore()" class="bg-red-900/30 text-red-500 px-6 py-3 rounded-xl text-sm font-bold border border-red-900/50">Clear All 🗑️</button>
                 </div>
                 <div id="savedItemsList" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
             </div>
@@ -167,7 +180,7 @@
     </div>
 
     <script>
-        const WORKER_URL = "https://my-ai-backend.freyaendicott.workers.dev"; // ඔයාගේ Worker URL එක දාන්න
+        const WORKER_URL = "https://my-ai-backend.freyaendicott.workers.dev";
         
         let currentImageUrl = null;
         let rawContentData = "", rawPromptData = "", rawVisionData = "";
@@ -177,8 +190,8 @@
         function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
             document.getElementById(tabId).classList.remove('hidden');
-            document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active-tab'));
-            document.getElementById('btn-' + tabId).classList.add('active-tab');
+            document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active-tab', 'text-white'));
+            document.getElementById('btn-' + tabId).classList.add('active-tab', 'text-white');
         }
 
         // 1. PROMPT MASTER
@@ -219,7 +232,7 @@
             } catch(e) { alert("Busy. Try again."); } finally { btn.disabled = false; status.innerText = ""; }
         }
 
-        // 3. CONTENT MANAGER (ANALYSIS & MASTER PROMPTS)
+        // 3. CONTENT MANAGER (JSON ERROR FIXED HERE)
         async function analyzeNiche() {
             const niche = document.getElementById('nicheInput').value;
             if(!niche) return;
@@ -231,7 +244,11 @@
             try {
                 const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "generate_text", prompt: p }) });
                 const data = await res.json();
-                const json = JSON.parse(data.result.replace(/```json|```/g, ''));
+                
+                // 🛠️ JSON Fix - Regex එකෙන් JSON එක විතරක් තෝරාගැනීම
+                const jsonMatch = data.result.match(/\{[\s\S]*\}/);
+                if (!jsonMatch) throw new Error("Invalid AI Format");
+                const json = JSON.parse(jsonMatch[0]);
                 
                 document.getElementById('reportPlaceholder').classList.add('hidden');
                 document.getElementById('reportContent').classList.remove('hidden');
@@ -240,14 +257,19 @@
                 setTimeout(() => document.getElementById('packageSelection').classList.add('opacity-100', 'translate-y-0'), 100);
                 
                 renderCharts(json.growth, json.ages);
-            } catch(e) { alert("API Error"); } finally { btnText.classList.remove('hidden'); loader.classList.add('hidden'); }
+            } catch(e) { 
+                console.error(e);
+                alert("Analysis failed. Model might be busy. Please try again."); 
+            } finally { 
+                btnText.classList.remove('hidden'); loader.classList.add('hidden'); 
+            }
         }
 
         async function finalGenerate(type) {
             const resBox = document.getElementById('finalPromptResult');
             const container = document.getElementById('finalPromptContainer');
             container.classList.remove('hidden');
-            resBox.innerHTML = "Engineering Elite " + type.toUpperCase() + " Package...";
+            resBox.innerHTML = "<p class='animate-pulse text-blue-400'>Engineering Elite " + type.toUpperCase() + " Package...</p>";
             
             const niche = document.getElementById('nicheInput').value;
             const p = `User wants ${type} package for niche "${niche}". Write a MASSIVE ELITE MASTER PROMPT like the 'Giant Hand' or 'Wildlife' examples. Include Role, Mission, Style, and 7 Phases (Viral ideas, technical AI prompts, captions, etc). Format with markdown code blocks.`;
@@ -260,17 +282,26 @@
             } catch(e) { alert("Error!"); }
         }
 
+        // Copy Function එක
+        function copyMasterPrompt() {
+            const text = document.getElementById('finalPromptResult').innerText;
+            navigator.clipboard.writeText(text).then(() => alert("Master Prompt Copied! ✅"));
+        }
+
         function renderCharts(growth, ages) {
-            if(growthChart) growthChart.destroy(); if(ageChart) ageChart.destroy();
+            if(growthChart) growthChart.destroy();
+            if(ageChart) ageChart.destroy();
             growthChart = new Chart(document.getElementById('growthChart'), { type: 'line', data: { labels: ['M1', 'M2', 'M3', 'M4', 'M5', 'M6'], datasets: [{ data: growth, borderColor: '#3b82f6', tension: 0.4, fill: true, backgroundColor: 'rgba(59, 130, 246, 0.1)' }] }, options: { plugins: { legend: false }, scales: { y: { display: false } } } });
-            ageChart = new Chart(document.getElementById('ageChart'), { type: 'doughnut', data: { labels: ['18-24', '25-34', '35-44', '45+'], datasets: [{ data: ages, backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#1e293b'], borderWidth: 0 }] }, options: { plugins: { legend: { position: 'bottom', labels: { color: '#64748b', font: { size: 8 } } } } } });
+            ageChart = new Chart(document.getElementById('ageChart'), { type: 'doughnut', data: { labels: ['18-24', '25-34', '35-44', '45+'], datasets: [{ data: ages, backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#1e293b'], borderWidth: 0 }] }, options: { plugins: { legend: { position: 'bottom', labels: { color: '#64748b', font: { size: 10 } } } } } });
         }
 
         // 4. VISION MASTER
         function handleImageSelect(e) {
-            const file = e.target.files[0]; const reader = new FileReader();
+            const file = e.target.files[0];
+            const reader = new FileReader();
             reader.onload = (ev) => {
-                uploadedImageMime = file.type; uploadedImageBase64 = ev.target.result.split(',')[1];
+                uploadedImageMime = file.type;
+                uploadedImageBase64 = ev.target.result.split(',')[1];
                 document.getElementById('uploadPreview').src = ev.target.result;
                 document.getElementById('uploadPreview').classList.remove('hidden');
                 document.getElementById('uploadPlaceholder').classList.add('hidden');
@@ -296,7 +327,7 @@
             let store = JSON.parse(localStorage.getItem('myAIStore')) || [];
             store.unshift({ type, content, date: new Date().toLocaleString() });
             localStorage.setItem('myAIStore', JSON.stringify(store));
-            alert("Saved!"); loadStore();
+            alert("Saved to Archive! ✅"); loadStore();
         }
 
         function loadStore() {
@@ -304,14 +335,14 @@
             const listDiv = document.getElementById('savedItemsList');
             listDiv.innerHTML = "";
             store.forEach(item => {
-                listDiv.innerHTML += `<div class="p-6 rounded-3xl bg-slate-900/50 border border-slate-800 shadow-xl"><div class="flex justify-between mb-4"><span class="bg-blue-600 text-[8px] font-black px-2 py-1 rounded uppercase tracking-widest">${item.type}</span><span class="text-[8px] text-slate-500 font-bold">${item.date}</span></div><div class="prose prose-invert prose-sm max-w-none text-slate-400">${marked.parse(item.content)}</div></div>`;
+                listDiv.innerHTML += `<div class="p-8 rounded-3xl bg-slate-900/50 border border-slate-800 shadow-xl"><div class="flex justify-between mb-4"><span class="bg-blue-600 text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest">${item.type}</span><span class="text-xs text-slate-500 font-bold">${item.date}</span></div><div class="prose prose-invert prose-md max-w-none text-slate-400">${marked.parse(item.content)}</div></div>`;
             });
         }
         function clearStore() { if(confirm("Delete all?")) { localStorage.removeItem('myAIStore'); loadStore(); } }
         function downloadImage() { const a = document.createElement("a"); a.href = currentImageUrl; a.download = "Masterpiece.jpg"; a.click(); }
 
         loadStore();
-        showTab('nicheTab'); // Start with Niche tab
+        showTab('nicheTab');
     </script>
 </body>
 </html>
